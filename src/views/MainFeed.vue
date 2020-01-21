@@ -19,6 +19,7 @@ export default {
   },
   methods: {
       clickButton: function (data) {
+        this.socket.emit("test", 666);
       }
   },
   data() {
