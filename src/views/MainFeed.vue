@@ -1,6 +1,7 @@
 <template>
   <div>
-    <button v-on:click="clickButton">connectE</button>
+    <button v-on:click="clickButton">TEst</button>
+    <button v-on:click="clickDisconect">Disconect</button>
     <div class="home" v-for="indirect in indirects" v-bind:key="indirect.id">
       <Indirect :text="indirect.text" :date="indirect.date" :userImg="indirect.userImg"/>
     </div>
@@ -11,6 +12,7 @@
 // @ is an alias to /src
 import Indirect from "@/components/Indirect.vue";
 import io from "socket.io-client"
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: "MainFeed",
@@ -18,13 +20,18 @@ export default {
     Indirect
   },
   methods: {
+    ...mapActions('login', ['logout']),
       clickButton: function (data) {
-        this.socket.emit("test", 666);
+        this.socket.emit("getUserName", null);
+      },
+      clickDisconect: function(data) {
+        this.logout();
       }
   },
   data() {
     return {
       socket: {},
+      userConected:"eeee",
 
       indirects: [
         {
@@ -61,12 +68,16 @@ export default {
     };
   },
   created() {
-    this.socket = io("http://localhost:8000")
+    const token = localStorage.getItem('token');
+    this.socket = io.connect("http://localhost:8000", {
+        query: {token}
+    });
   },
   mounted() {
-    this.socket.on("holo", data => {
+     this.socket.on("setUserName", data => {
       console.log(data)
-    })
+    //   this.userConected = data
+     })
   }
 };
 </script>
