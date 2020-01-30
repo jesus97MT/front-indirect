@@ -11,8 +11,9 @@ export const userService = {
 };
 
 function login(email: string, password:string) {
+    const user = {email, password}
     var socket = io.connect("http://localhost:8000", {
-        query: {email, password}
+        query: {op: "login", user: JSON.stringify(user)}
     }); 
 
     return new Promise((resolve, reject) => {
@@ -35,9 +36,7 @@ function logout() {
 }
 
 function register(email: string, password:string) {
-    const user = {
-        email, password
-    }
+    const user = {email, password}
     console.log(user)
     var socket = io.connect("http://localhost:8000", {
         query: {op: "createUser", user: JSON.stringify(user)}

@@ -70,7 +70,7 @@ export default {
   created() {
     const token = localStorage.getItem('token');
     this.socket = io.connect("http://localhost:8000", {
-        query: {token}
+        query: {op:"token", token}
     });
   },
   mounted() {
