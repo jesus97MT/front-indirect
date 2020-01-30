@@ -1,5 +1,6 @@
 //import config from 'config';//url
-import io from 'socket.io-client'
+import { socketOperations } from '../socket/socket'
+import socket from '../socket/socket'
 export const userService = {
     login,
     logout,
@@ -10,11 +11,9 @@ export const userService = {
     delete: _delete
 };
 
-function login(email: string, password:string) {
-    const user = {email, password}
-    var socket = io.connect("http://localhost:8000", {
-        query: {op: "login", user: JSON.stringify(user)}
-    }); 
+function login(email: string, password: string) {
+    socketOperations.login(email, password);
+    var socket = socketOperations.getSocket()
 
     return new Promise((resolve, reject) => {
         socket.on('error', (error: any) => {
@@ -25,23 +24,22 @@ function login(email: string, password:string) {
             localStorage.setItem('user', email);
             localStorage.setItem('token', token);
             console.log('CONTECTADOSSS')
-            resolve({email, token})
+            resolve({ email, token })
         })
     });
 }
 
 function logout() {
+    var socket = socketOperations.getSocket();
+    socket.emit("logout");
     localStorage.removeItem('user');
     localStorage.removeItem('token');
 }
 
-function register(email: string, password:string) {
-    const user = {email, password}
-    console.log(user)
-    var socket = io.connect("http://localhost:8000", {
-        query: {op: "createUser", user: JSON.stringify(user)}
-    }); 
-
+function register(email: string, password: string) {
+    socketOperations.createUser(email, password);
+    var socket = socketOperations.getSocket();
+    
     return new Promise((resolve, reject) => {
         socket.on('error', (error: any) => {
             socket.close();
@@ -51,29 +49,29 @@ function register(email: string, password:string) {
             localStorage.setItem('user', email);
             localStorage.setItem('token', token);
             console.log('CONTECTADOSSS')
-            resolve({email, token})
+            resolve({ email, token })
         })
     });
 }
 
 function getAll() {
-   
+
 }
 
 
 function getById() {
-   
+
 }
 
 function update() {
-    
+
 }
 
 function _delete() {
-    
+
 }
 
-function handleResponse(response:any) {
+function handleResponse(response: any) {
     /*return response.text().then(text => {
         const data = text && JSON.parse(text);
         if (!response.ok) {

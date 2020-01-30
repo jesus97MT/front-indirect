@@ -8,6 +8,16 @@
   </div>
 </template>
 
+
+<script lang="ts">
+import Vue from 'vue'
+import { socketOperations } from './socket/socket'
+export default Vue.extend({
+  mounted() {
+    socketOperations.reconnect()
+  },
+})
+</script>
 <style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

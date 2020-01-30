@@ -11,7 +11,7 @@
 <script>
 // @ is an alias to /src
 import Indirect from "@/components/Indirect.vue";
-import io from "socket.io-client"
+import { socketOperations } from '../socket/socket'
 import { mapState, mapActions } from 'vuex'
 
 export default {
@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      socket: {},
+      socket: socketOperations.getSocket(),
       userConected:"eeee",
 
       indirects: [
@@ -68,10 +68,10 @@ export default {
     };
   },
   created() {
-    const token = localStorage.getItem('token');
+    /*const token = localStorage.getItem('token');
     this.socket = io.connect("http://localhost:8000", {
         query: {op:"token", token}
-    });
+    });*/
   },
   mounted() {
      this.socket.on("setUserName", data => {

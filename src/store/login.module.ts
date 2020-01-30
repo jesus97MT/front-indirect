@@ -1,6 +1,7 @@
 import { userService } from '../services';
 import router from '../router/index';
 
+console.log("connected")
 const user = localStorage.getItem('user') || {};
 const token = localStorage.getItem('token') || {};
 const state = user && !(Object.entries(user).length === 0 && user.constructor === Object)
