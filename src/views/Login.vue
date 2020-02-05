@@ -1,4 +1,5 @@
 <template>
+<v-app>
   <div class="main">
       <div v-if="isLogin" class="container">
         <div>
@@ -36,11 +37,13 @@
         <div>
         <button v-on:click="isLogin = true">¿Tienes cuenta?</button>
         </div>
+        <v-btn text small>loco</v-btn>
         <!-- <label>
           <input type="checkbox" checked="checked" name="remember"> Remember me
         </label> -->
       </div>
   </div>
+</v-app>
 </template>
 
 <script>
