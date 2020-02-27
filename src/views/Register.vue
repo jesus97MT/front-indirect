@@ -43,7 +43,7 @@ export default {
   },
   store,
   methods: {
-    ...mapActions("login", ["register"]),
+    ...mapActions("account", ["register"]),
     onRegister() {
       //maps action??
       const email = this.registerData.email;

@@ -20,7 +20,7 @@ export default {
     Indirect
   },
   methods: {
-    ...mapActions("login", ["logout"]),
+    ...mapActions("account", ["logout"]),
     clickButton: function(data) {
       this.socket.emit("getUserName", null);
     },

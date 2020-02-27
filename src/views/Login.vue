@@ -43,7 +43,7 @@ export default {
   },
   store,
   methods: {
-    ...mapActions("login", ["login"]),
+    ...mapActions("account", ["login"]),
     onLogin() {
       const email = this.loginData.email;
       const password = this.loginData.password;

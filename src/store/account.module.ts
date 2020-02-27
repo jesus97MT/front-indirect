@@ -21,12 +21,14 @@ const actions = {
                     router.push('/');
                 },
                 error => {
+                    console.log("error")
                     commit('loginFailure', error);
                     dispatch('alert/error', error, { root: true });
                 }
             );
     },
     logout({ commit }: any) {
+        console.log("eee")
         userService.logout();
         commit('logout');
         router.push('/login');
@@ -82,7 +84,7 @@ const mutations = {
     }*/
 };
 
-export const login = {
+export const account = {
     namespaced: true,
     state,
     actions,

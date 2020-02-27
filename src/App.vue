@@ -12,14 +12,14 @@
       overflow
     >
       <v-list dense nav class="py-0">
-        <v-list-item two-line to="/profile" :disabled="!(login.status && login.status.loggedIn)">
+        <v-list-item two-line to="/profile" :disabled="!(account.status && account.status.loggedIn)">
           <v-list-item-avatar>
             <img src="https://randomuser.me/api/portraits/men/81.jpg" />
           </v-list-item-avatar>
 
           <v-list-item-content >
-            <v-list-item-title>{{login.status && login.status.loggedIn ? /*name + surname */ "Nombre Apellido"  : "User not logged"}}</v-list-item-title>
-            <v-list-item-subtitle>{{login.status && login.status.loggedIn ? login.user : "Please log-in"}}</v-list-item-subtitle>
+            <v-list-item-title>{{account.status && account.status.loggedIn ? /*name + surname */ "Nombre Apellido"  : "User not logged"}}</v-list-item-title>
+            <v-list-item-subtitle>{{account.status && account.status.loggedIn ? account.user : "Please log-in"}}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider ></v-divider>
@@ -28,10 +28,10 @@
           :key="item.title"
           :to="item.route"
           link
-          :disabled="!(login.status && login.status.loggedIn)"
+          :disabled="!(account.status && account.status.loggedIn)"
         >
           <v-list-item-icon>
-            <v-icon :disabled="!(login.status && login.status.loggedIn)">{{ item.icon }}</v-icon>
+            <v-icon :disabled="!(account.status && account.status.loggedIn)">{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -44,7 +44,7 @@
         <v-list-item-title>Night Mode</v-list-item-title>
         <v-switch v-model="$vuetify.theme.dark" primary/>
       </v-list-item>
-      <template v-slot:append v-if="login.status && login.status.loggedIn">
+      <template v-slot:append v-if="account.status && account.status.loggedIn">
         <div class="pa-2">
           <v-btn block color="error" v-on:click="clickDisconect">Logout</v-btn>
         </div>
@@ -74,14 +74,14 @@ export default Vue.extend({
     socketOperations.reconnect();
   },
   methods: {
-    ...mapActions("login", ["logout"]),
+    ...mapActions("account", ["logout"]),
     clickDisconect: function() {
       this.logout();
     }
   },
   computed: {
     ...mapState({
-      login: (state: any) => state.login
+      account: (state: any) => state.account
     })
   },
   data: () => ({
