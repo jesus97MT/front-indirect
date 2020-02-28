@@ -84,20 +84,11 @@
       bottom
       right
       fab
-      v-on:click="editing ? editing = false : editing = true"
+      v-on:click="editing ? onSaveData() : editing = true"
     >
       <v-icon>{{editing ? "check" : "edit" }}</v-icon>
     </v-btn>
-    <v-btn
-      v-if="editing"
-      color="red"
-      dark
-      fixed
-      bottom
-      left
-      fab
-      v-on:click="editing = false"
-    >
+    <v-btn v-if="editing" color="red" dark fixed bottom left fab v-on:click="editing = false">
       <v-icon>cancel</v-icon>
     </v-btn>
   </div>
@@ -107,13 +98,19 @@ import { mapState, mapActions } from "vuex";
 export default {
   computed: {
     ...mapState({
-      user: (state) => state.user.user
+      user: state => state.user.user
     })
+  },
+  methods: {
+    ...mapActions("user", ["saveUserData"]),
+    onSaveData() {
+      this.editing = false;
+      this.saveUserData(this.user)
+    }
   },
   data() {
     return {
-      editing: false,
-      
+      editing: false
     };
   }
 };

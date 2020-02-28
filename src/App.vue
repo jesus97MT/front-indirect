@@ -12,17 +12,21 @@
       overflow
     >
       <v-list dense nav class="py-0">
-        <v-list-item two-line to="/profile" :disabled="!(account.status && account.status.loggedIn)">
+        <v-list-item
+          two-line
+          to="/profile"
+          :disabled="!(account.status && account.status.loggedIn)"
+        >
           <v-list-item-avatar>
-            <img src="https://randomuser.me/api/portraits/men/81.jpg" />
+            <img :src="user.profilePicUrl ? user.profilePicUrl : 'https://randomuser.me/api/portraits/men/81.jpg'" />
           </v-list-item-avatar>
 
-          <v-list-item-content >
-            <v-list-item-title>{{account.status && account.status.loggedIn ? /*name + surname */ "Nombre Apellido"  : "User not logged"}}</v-list-item-title>
-            <v-list-item-subtitle>{{account.status && account.status.loggedIn ? account.user : "Please log-in"}}</v-list-item-subtitle>
+          <v-list-item-content>
+            <v-list-item-title>{{account.status && account.status.loggedIn ? /*name + surname */ user.name : "User not logged"}}</v-list-item-title>
+            <v-list-item-subtitle>{{account.status && account.status.loggedIn ? user.email : "Please log-in"}}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-divider ></v-divider>
+        <v-divider></v-divider>
         <v-list-item
           v-for="item in items"
           :key="item.title"
@@ -42,7 +46,7 @@
       <v-divider></v-divider>
       <v-list-item>
         <v-list-item-title>Night Mode</v-list-item-title>
-        <v-switch v-model="$vuetify.theme.dark" primary/>
+        <v-switch v-model="$vuetify.theme.dark" primary />
       </v-list-item>
       <template v-slot:append v-if="account.status && account.status.loggedIn">
         <div class="pa-2">
@@ -81,7 +85,8 @@ export default Vue.extend({
   },
   computed: {
     ...mapState({
-      account: (state: any) => state.account
+      account: (state: any) => state.account,
+      user: (state: any) => state.user.user
     })
   },
   data: () => ({
@@ -97,9 +102,9 @@ export default Vue.extend({
       inset: false
     },
     items: [
-      { title: "Home", icon: "dashboard", route:"/" },
-      { title: "Chat", icon: "gavel",route:"/messages" },
-      { title: "Account", icon: "account_box", route:"/test" }
+      { title: "Home", icon: "dashboard", route: "/" },
+      { title: "Chat", icon: "gavel", route: "/messages" },
+      { title: "Account", icon: "account_box", route: "/test" }
     ]
   })
 });

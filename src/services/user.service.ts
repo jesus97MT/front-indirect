@@ -8,7 +8,8 @@ export const userService = {
     getAll,
     getById,
     update,
-    delete: _delete
+    delete: _delete,
+    updateUserData
 };
 
 function login(email: string, password: string) {
@@ -51,6 +52,25 @@ function register(email: string, password: string) {
             console.log('CONTECTADOSSS')
             resolve({ email, token })
         })
+    });
+}
+
+function updateUserData(user: any) {
+    socketOperations.updateUserData(user);
+    var socket = socketOperations.getSocket();
+    
+    return new Promise((resolve, reject) => {
+        resolve(true)
+        /*socket.on('error', (error: any) => {
+            socket.close();
+            reject(null);
+        })
+        socket.on("getToken", (token: any) => {
+            localStorage.setItem('user', email);
+            localStorage.setItem('token', token);
+            console.log('CONTECTADOSSS')
+            resolve({ email, token })
+        })*/
     });
 }
 

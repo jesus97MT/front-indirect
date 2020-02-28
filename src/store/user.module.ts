@@ -1,27 +1,49 @@
+import { userService } from '../services';
 
-const state = {user:{
-    name: "",
-    surname: "",
-    email: "",
-    date: "",
-    followers: 0,
-    following: 0,
-    profilePicUrl: ""
+const state = {
+    user: {
+        name: "",
+        surname: "",
+        email: "",
+        date: "",
+        followers: 0,
+        following: 0,
+        profilePicUrl: ""
 
-}};
+    }
+};
 
 const actions = {
-    recconect({ commit }: any, {user}:any) {
+    saveUserData({ commit }: any, user: any) {
+        console.log(user)
+        userService.updateUserData(user)
+            .then(
+                data => {
+                    console.log(user);
+                    commit('setUserData', user);
+                    //commit('loginSuccess', user);
+
+                },
+                error => {
+                    //console.log("error")
+                    //commit('loginFailure', error);
+                    //dispatch('alert/error', error, { root: true });
+                }
+            );
+
+    },
+    saveUserProfilePicture({ commit }: any, { picture }: any) {
 
         commit('setUserData', user);
     },
 };
 
 const mutations = {
-    setUserData(state:any, user:any) {
-        state.user = user
+    setUserData(state: any, user: any) {
+        // TO DO VALIDAR DATOS
+        state.user = user;
     },
-    
+
 };
 
 export const user = {

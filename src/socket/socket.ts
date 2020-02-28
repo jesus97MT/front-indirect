@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-const  url = "http://localhost:8000";
+const url = "http://localhost:8000";
 var socket: any = io(url);
 
 import { store } from '../store/'
@@ -10,6 +10,8 @@ function login(email: string, password: string) {
     socket = io.connect(url, {
         query: { op: "login", user: JSON.stringify(user) }
     });
+    const operation = "getUserByLogin";
+    socket.on('connect', () => setUserData(operation));
 }
 
 function createUser(email: string, password: string) {
@@ -28,25 +30,30 @@ function reconnect() {
         socket = io.connect(url, {
             query: { op: "token", token }
         });
-        socket.on('connect', () => setUserData())
+        const op = "getUserByToken";
+        socket.on('connect', () => setUserData(op));
         socket.on('error', (error: any) => logout());
     }
 
 }
-function setUserData() {
-    socket.on("getUserByToken", (user: any) => {
-        const loginStore:any = store;
+function setUserData(op: string) {
+    socket.on(op, (user: any) => {
+        const loginStore: any = store;
 
-        if(user) {
-            loginStore['_actions']['user/recconect'][0]({user});
+        if (user) {
+            loginStore['_mutations']['user/setUserData'][0](user);
         }
-            
+
     })
+}
+
+function updateUserData(userData: any) {
+    socket.emit("updateUserData", userData);
 }
 
 function logout() {
     //Todo mirar otra forma más limpia
-    const loginStore:any = store;
+    const loginStore: any = store;
     loginStore['_actions']['account/logout'][0]();
 }
 
@@ -54,5 +61,6 @@ export const socketOperations = {
     login,
     getSocket,
     reconnect,
-    createUser
+    createUser,
+    updateUserData
 } 
