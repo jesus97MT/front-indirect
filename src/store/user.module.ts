@@ -32,6 +32,9 @@ const actions = {
             );
 
     },
+    resetUserData({ commit }: any) {
+        commit('setUserData', state.user);
+    },
     saveUserProfilePicture({ commit }: any, { picture }: any) {
 
         commit('setUserData', user);
@@ -41,14 +44,23 @@ const actions = {
 const mutations = {
     setUserData(state: any, user: any) {
         // TO DO VALIDAR DATOS
+        state.user = {};
         state.user = user;
     },
 
 };
 
+const getters = {
+    getUserData(state: any, user: any) {
+        return JSON.parse(JSON.stringify(state.user));
+    },
+    
+}
+
 export const user = {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    getters
 };

@@ -66,7 +66,7 @@
         label="E-mail"
         required
         :readonly="!editing"
-        :disabled="!editing"
+        :disabled="true"
       ></v-text-field>
 
       <v-text-field
@@ -88,29 +88,33 @@
     >
       <v-icon>{{editing ? "check" : "edit" }}</v-icon>
     </v-btn>
-    <v-btn v-if="editing" color="red" dark fixed bottom left fab v-on:click="editing = false">
+    <v-btn v-if="editing" color="red" dark fixed bottom left fab v-on:click="onCancelEdit()">
       <v-icon>cancel</v-icon>
     </v-btn>
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState({
-      user: state => state.user.user
+    ...mapGetters("user", {
+        user: "getUserData"
     })
   },
   methods: {
-    ...mapActions("user", ["saveUserData"]),
+    ...mapActions("user", ["saveUserData", "resetUserData"]),
     onSaveData() {
       this.editing = false;
-      this.saveUserData(this.user)
+      this.saveUserData(this.user);
+    },
+    onCancelEdit() {
+      this.resetUserData();
+      this.editing = false;
     }
   },
   data() {
     return {
-      editing: false
+      editing: false,
     };
   }
 };
