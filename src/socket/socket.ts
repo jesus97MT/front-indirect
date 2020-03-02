@@ -15,7 +15,7 @@ function login(email: string, password: string) {
 }
 
 function createUser(email: string, password: string, userId: string) {
-    const user = { email, password, userId};
+    const user = { email, password, userId };
     socket = io.connect(url, {
         query: { op: "createUser", user: JSON.stringify(user) }
     });
@@ -25,17 +25,31 @@ function getSocket() {
 }
 
 function reconnect() {
-    const token = localStorage.getItem('token');
-    if (token) {
-        socket = io.connect(url, {
-            query: { op: "token", token }
-        });
-        const op = "getUserByToken";
-        socket.on('connect', () => setUserData(op));
-        socket.on('error', (error: any) => logout());
-    }
+    return new Promise((resolve, reject) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+
+            socket = io.connect(url, {
+                query: { op: "token", token }
+            });
+            const op = "getUserByToken";
+            socket.on('connect', () => {
+                setUserData(op);
+                resolve(true);
+            });
+            socket.on('error', (error: any) => {
+                logout();
+                reject(error)
+            });
+        } else {
+            reject("Not token allowed");
+
+        }
+    });
+    
 
 }
+
 function setUserData(op: string) {
     socket.on(op, (user: any) => {
         const loginStore: any = store;

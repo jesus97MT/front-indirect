@@ -21,7 +21,7 @@
               <v-list-item-title class="title" v-if="!editing">{{ user && user.userId }}</v-list-item-title>
               <v-list-item-title class="title" v-else>
                 <v-text-field
-                v-if="user"
+                  v-if="user"
                   v-model="user.userId"
                   label="Nombre"
                   required
@@ -71,7 +71,7 @@
         :disabled="true"
       ></v-text-field>
       <v-text-field
-      v-if="user"
+        v-if="user"
         v-model="user.name"
         label="Name"
         required
@@ -79,7 +79,7 @@
         :disabled="!editing"
       ></v-text-field>
       <v-text-field
-      v-if="user"
+        v-if="user"
         v-model="user.surname"
         label="Surname"
         required
@@ -88,7 +88,7 @@
       ></v-text-field>
 
       <v-text-field
-      v-if="user"
+        v-if="user"
         v-model="user.date"
         label="Date"
         :readonly="!editing"
@@ -97,7 +97,7 @@
       ></v-text-field>
     </div>
     <v-btn
-    v-if="ownProfile"
+      v-if="ownProfile"
       :color="editing ? '#1DE9B6' : '#26C6DA'"
       dark
       fixed
@@ -108,43 +108,53 @@
     >
       <v-icon>{{editing ? "check" : "edit" }}</v-icon>
     </v-btn>
-    <v-btn v-if="ownProfile && editing" color="red" dark fixed bottom left fab v-on:click="onCancelEdit()">
+    <v-btn
+      v-if="ownProfile && editing"
+      color="red"
+      dark
+      fixed
+      bottom
+      left
+      fab
+      v-on:click="onCancelEdit()"
+    >
       <v-icon>cancel</v-icon>
     </v-btn>
     <div class="px-4" style="width:100%">
-    <v-btn v-if="!ownProfile" style="width:90%" class="px-6"   fixed bottom v-on:click="onFollow" color="primary">Seguir</v-btn>
-
+      <v-btn
+        v-if="!ownProfile"
+        style="width:90%"
+        class="px-6"
+        fixed
+        bottom
+        v-on:click="onFollow"
+        color="primary"
+      >Seguir</v-btn>
     </div>
-
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class ProfileForm extends Vue {
-    @Prop() private ownProfile!: Boolean;
-    @Prop() private user!: any;
-      private editing = false;
-      
-
-
+  @Prop() private ownProfile!: Boolean;
+  @Prop() private user!: any;
+  private editing = false;
 
   onSaveData() {
-      //emit
-      this.editing = false;
-      this.$emit("onSaveData");
-      //this.saveUserData(this.user);
-    }
-    onCancelEdit() {
-      //emit
-      this.editing = false;
-      this.$emit("onCancelEdit");
-      //this.resetUserData();
-    }
-    onFollow() {
-
-    }
+    //emit
+    this.editing = false;
+    this.$emit("onSaveData");
+    //this.saveUserData(this.user);
+  }
+  onCancelEdit() {
+    //emit
+    this.editing = false;
+    this.$emit("onCancelEdit");
+    //this.resetUserData();
+  }
+  onFollow() {}
 }
 </script>

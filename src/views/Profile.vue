@@ -9,15 +9,17 @@
     
   </div>
 </template>
-<script>
-import { mapGetters, mapActions } from "vuex";
+<script >
+import { mapGetters, mapActions, mapState } from "vuex";
 import ProfileForm from "@/components/ProfileForm.vue";
 export default {
-
     components: {
         ProfileForm
   },
   computed: {
+      ...mapState({
+      account: state => state.account,
+    }),
     ...mapGetters("user", {
       user: "getUserData",
       userFind: "getPublicProfile"
@@ -26,6 +28,7 @@ export default {
   mounted() {
     const userId = this.$route.params.id;
     if (userId) {
+        console.log(this.account.status.loggedIn)
       this.ownProfile = false;
       this.findPublicProfile(userId);
     }
