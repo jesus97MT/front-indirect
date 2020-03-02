@@ -9,7 +9,8 @@ export const userService = {
     getById,
     update,
     delete: _delete,
-    updateUserData
+    updateUserData,
+    getUserDataByUserId
 };
 
 function login(email: string, password: string) {
@@ -71,6 +72,22 @@ function updateUserData(user: any) {
             console.log('CONTECTADOSSS')
             resolve({ email, token })
         })*/
+    });
+}
+
+function getUserDataByUserId(userId: string) {
+    socketOperations.getUserByUserId(userId);
+    var socket = socketOperations.getSocket()
+
+    return new Promise((resolve, reject) => {
+        socket.on('error', (error: any) => {
+            socket.close();
+            reject(null);
+        })
+        socket.on("getUserByUserId", (user: any) => {
+            console.log('user')
+            resolve({ user })
+        })
     });
 }
 

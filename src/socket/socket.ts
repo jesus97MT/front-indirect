@@ -44,7 +44,7 @@ function setUserData(op: string) {
             loginStore['_mutations']['user/setUserData'][0](user);
         }
 
-    })
+    });
 }
 
 function updateUserData(userData: any) {
@@ -57,10 +57,16 @@ function logout() {
     loginStore['_actions']['account/logout'][0]();
 }
 
+function getUserByUserId(userId: string) {
+    const op = "findUserByUserId";
+    socket.emit(op, userId);
+}
+
 export const socketOperations = {
     login,
     getSocket,
     reconnect,
     createUser,
-    updateUserData
+    updateUserData,
+    getUserByUserId
 } 

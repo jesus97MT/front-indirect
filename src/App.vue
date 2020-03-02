@@ -54,16 +54,25 @@
         </div>
       </template>
     </v-navigation-drawer>
-    <v-app-bar :clipped-left="primaryDrawer.clipped" app>
+    <v-app-bar :clipped-left="primaryDrawer.clipped" app :extended="false">
       <v-app-bar-nav-icon
         v-if="primaryDrawer.type !== 'permanent'"
         @click.stop="primaryDrawer.model = !primaryDrawer.model"
       />
-      <v-toolbar-title>Indirect</v-toolbar-title>
+      <v-toolbar-title v-if="!search.isActive">Indirect</v-toolbar-title>
+      <v-text-field
+        v-else
+        v-model="search.text"
+        v-on:keyup.enter="onEnterSearch"
+      ></v-text-field>
+      <v-spacer></v-spacer>
+      <v-btn icon  v-on:click="search.isActive = !search.isActive">
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-content>
-      <router-view />
+      <router-view :key="$route.fullPath"/>
     </v-content>
   </v-app>
 </template>
@@ -72,6 +81,7 @@
 import Vue from "vue";
 import { socketOperations } from "./socket/socket";
 import { mapState, mapActions } from "vuex";
+import router from './router/index';
 
 export default Vue.extend({
   mounted() {
@@ -81,6 +91,14 @@ export default Vue.extend({
     ...mapActions("account", ["logout"]),
     clickDisconect: function() {
       this.logout();
+    },
+    onEnterSearch() {
+      
+      const userId = this.search.text;
+      const url = `/profile/${userId}`;
+      router.push(url);
+      this.search.isActive = false;
+      this.search.text = "";
     }
   },
   computed: {
@@ -105,7 +123,11 @@ export default Vue.extend({
       { title: "Home", icon: "dashboard", route: "/" },
       { title: "Chat", icon: "gavel", route: "/messages" },
       { title: "Account", icon: "account_box", route: "/test" }
-    ]
+    ],
+    search: {
+      isActive : false,
+      text: ""
+    }
   })
 });
 </script>
