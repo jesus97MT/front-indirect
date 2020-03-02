@@ -14,8 +14,8 @@ function login(email: string, password: string) {
     socket.on('connect', () => setUserData(operation));
 }
 
-function createUser(email: string, password: string) {
-    const user = { email, password }
+function createUser(email: string, password: string, userId: string) {
+    const user = { email, password, userId};
     socket = io.connect(url, {
         query: { op: "createUser", user: JSON.stringify(user) }
     });

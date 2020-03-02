@@ -33,10 +33,10 @@ const actions = {
         commit('logout');
         router.push('/login');
     },
-    register({ dispatch, commit }: any, { email, password }:any) {
+    register({ dispatch, commit }: any, { email, password, userId }:any) {
         commit('registerRequest', user);
     
-        userService.register(email, password)
+        userService.register(email, password, userId)
             .then(
                 user => {
                     commit('registerSuccess', user);

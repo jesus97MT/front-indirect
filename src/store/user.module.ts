@@ -2,6 +2,7 @@ import { userService } from '../services';
 
 const state = {
     user: {
+        userId: "",
         name: "",
         surname: "",
         email: "",
@@ -15,7 +16,6 @@ const state = {
 
 const actions = {
     saveUserData({ commit }: any, user: any) {
-        console.log(user)
         userService.updateUserData(user)
             .then(
                 data => {
@@ -25,7 +25,7 @@ const actions = {
 
                 },
                 error => {
-                    //console.log("error")
+                    console.log("error")
                     //commit('loginFailure', error);
                     //dispatch('alert/error', error, { root: true });
                 }
@@ -39,6 +39,23 @@ const actions = {
 
         commit('setUserData', user);
     },
+
+    getPublicProfile({ commit }: any, userId: any) {
+        userService.updateUserData(user)
+        .then(
+            data => {
+                console.log(user);
+                commit('setUserData', user);
+                //commit('loginSuccess', user);
+
+            },
+            error => {
+                console.log("error")
+                //commit('loginFailure', error);
+                //dispatch('alert/error', error, { root: true });
+            }
+        );
+    }
 };
 
 const mutations = {
@@ -52,9 +69,10 @@ const mutations = {
 
 const getters = {
     getUserData(state: any, user: any) {
+        console.log(state.user)
         return JSON.parse(JSON.stringify(state.user));
     },
-    
+
 }
 
 export const user = {

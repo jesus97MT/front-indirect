@@ -3,6 +3,14 @@
       <v-img src="../../public/logo/logo.png" aspect-ratio="1.5"></v-img>
       <v-form class="mt-4">
         <v-text-field
+          label="Introduce un nombre de usuario único"
+          name="userId"
+          prepend-icon="person"
+          type="text"
+          required
+          v-model="registerData.userId"
+        />
+        <v-text-field
           label="Login"
           name="login"
           prepend-icon="person"
@@ -37,7 +45,8 @@ export default {
     return {
       registerData: {
         email: "",
-        password: ""
+        password: "",
+        userId:""
       }
     };
   },
@@ -48,7 +57,8 @@ export default {
       //maps action??
       const email = this.registerData.email;
       const password = this.registerData.password;
-      this.register({ email, password });
+      const userId = this.registerData.userId;
+      this.register({ email, password, userId });
     }
   }
 };

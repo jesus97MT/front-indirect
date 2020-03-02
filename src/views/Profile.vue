@@ -18,10 +18,10 @@
         <v-col class>
           <v-list-item color="rgba(0, 0, 0, .4)" dark>
             <v-list-item-content>
-              <v-list-item-title class="title" v-if="!editing">{{ user.name }}</v-list-item-title>
+              <v-list-item-title class="title" v-if="!editing">{{ user.userId }}</v-list-item-title>
               <v-list-item-title class="title" v-else>
                 <v-text-field
-                  v-model="user.name"
+                  v-model="user.userId"
                   label="Nombre"
                   required
                   :readonly="!editing"
@@ -68,6 +68,20 @@
         :readonly="!editing"
         :disabled="true"
       ></v-text-field>
+      <v-text-field
+        v-model="user.name"
+        label="Name"
+        required
+        :readonly="!editing"
+        :disabled="!editing"
+      ></v-text-field>
+      <v-text-field
+        v-model="user.surname"
+        label="Surname"
+        required
+        :readonly="!editing"
+        :disabled="!editing"
+      ></v-text-field>
 
       <v-text-field
         v-model="user.date"
@@ -95,14 +109,20 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+
 export default {
   computed: {
+    
     ...mapGetters("user", {
         user: "getUserData"
     })
   },
+  created () {
+    
+  console.log(this.$route.params)
+  },
   methods: {
-    ...mapActions("user", ["saveUserData", "resetUserData"]),
+    ...mapActions("user", ["saveUserData", "resetUserData", "getPublicProfile"]),
     onSaveData() {
       this.editing = false;
       this.saveUserData(this.user);
@@ -110,6 +130,10 @@ export default {
     onCancelEdit() {
       this.resetUserData();
       this.editing = false;
+    },
+    getUserPublicData() {
+      const userId = this.$route.params.id;
+      //this.getPublicProfile(userId)
     }
   },
   data() {

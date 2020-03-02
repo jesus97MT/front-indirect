@@ -22,7 +22,7 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{account.status && account.status.loggedIn ? /*name + surname */ user.name : "User not logged"}}</v-list-item-title>
+            <v-list-item-title>{{account.status && account.status.loggedIn ? user.userId : "User not logged"}}</v-list-item-title>
             <v-list-item-subtitle>{{account.status && account.status.loggedIn ? user.email : "Please log-in"}}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>

@@ -37,8 +37,8 @@ function logout() {
     localStorage.removeItem('token');
 }
 
-function register(email: string, password: string) {
-    socketOperations.createUser(email, password);
+function register(email: string, password: string, userId: string) {
+    socketOperations.createUser(email, password, userId);
     var socket = socketOperations.getSocket();
     
     return new Promise((resolve, reject) => {
