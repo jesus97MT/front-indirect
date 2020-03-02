@@ -1,4 +1,6 @@
 import { userService } from '../services';
+import router from '../router/index';
+
 
 const state = {
     user: {
@@ -28,7 +30,7 @@ const actions = {
         userService.updateUserData(user)
             .then(
                 data => {
-                    console.log(user);
+                    console.log('setUserData');
                     commit('setUserData', user);
                     //commit('loginSuccess', user);
 
@@ -59,7 +61,8 @@ const actions = {
 
             },
             error => {
-                console.log("error")
+                router.push('/profile-not-found');
+                console.log("Profile not found")
                 //commit('loginFailure', error);
                 //dispatch('alert/error', error, { root: true });
             }
@@ -69,7 +72,6 @@ const actions = {
 
 const mutations = {
     setUserData(state: any, user: any) {
-        console.log(user)
         // TO DO VALIDAR DATOS
         state.user = {};
         state.user = user;
@@ -78,8 +80,6 @@ const mutations = {
         // TO DO VALIDAR DATOS
         state.userSearched = {};
         state.userSearched = user;
-        console.log(state.userSearched);
-        console.log("set")
 
     },
 
@@ -87,12 +87,9 @@ const mutations = {
 
 const getters = {
     getUserData(state: any, user: any) {
-        console.log("EEEEEEEEE")
         return JSON.parse(JSON.stringify(state.user));
     },
     getPublicProfile(state: any, user: any) {
-        console.log("WWWWWWW")
-        console.log(state.userSearched)
         return JSON.parse(JSON.stringify(state.userSearched));
     },
 

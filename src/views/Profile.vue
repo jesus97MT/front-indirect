@@ -28,7 +28,6 @@ export default {
   mounted() {
     const userId = this.$route.params.id;
     if (userId) {
-        console.log(this.account.status.loggedIn)
       this.ownProfile = false;
       this.findPublicProfile(userId);
     }

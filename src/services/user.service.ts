@@ -41,7 +41,7 @@ function logout() {
 function register(email: string, password: string, userId: string) {
     socketOperations.createUser(email, password, userId);
     var socket = socketOperations.getSocket();
-    
+
     return new Promise((resolve, reject) => {
         socket.on('error', (error: any) => {
             socket.close();
@@ -59,7 +59,7 @@ function register(email: string, password: string, userId: string) {
 function updateUserData(user: any) {
     socketOperations.updateUserData(user);
     var socket = socketOperations.getSocket();
-    
+
     return new Promise((resolve, reject) => {
         resolve(true)
         /*socket.on('error', (error: any) => {
@@ -85,8 +85,10 @@ function getUserDataByUserId(userId: string) {
             reject(null);
         })
         socket.on("getUserByUserId", (user: any) => {
-            console.log('user')
-            resolve({ user })
+            if (user)
+                resolve({ user });
+            else
+                reject(null);
         })
     });
 }

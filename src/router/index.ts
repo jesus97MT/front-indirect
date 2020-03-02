@@ -6,6 +6,7 @@ import MainFeed from '../views/MainFeed.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Profile from '../views/Profile.vue'
+import ProfileNotFound from '../components/ProfileNotFound.vue'
 import { store } from '../store/index'
 
 Vue.use(VueRouter)
@@ -35,6 +36,11 @@ const routes = [
     path: '/profile/:id',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/profile-not-found',
+    name: 'Profile',
+    component: ProfileNotFound
   },
   {
     path: '/about',
