@@ -1,6 +1,6 @@
   
 <template>
-  <v-app id="sandbox">
+  <v-app id="sandbox" light :style="`background-color:${this.$vuetify.theme.themes.light.base}`">
     <spinner v-if="isLoading" :isLoading="isLoading"></spinner>
 
     <div v-else>
@@ -13,6 +13,7 @@
         :temporary="primaryDrawer.type === 'temporary'"
         app
         overflow
+        :style="`background-color:${this.$vuetify.theme.themes.light.base}`"
       >
         <v-list dense nav class="py-0">
           <v-list-item
@@ -59,12 +60,12 @@
           </div>
         </template>
       </v-navigation-drawer>
-      <v-app-bar :clipped-left="primaryDrawer.clipped" app :extended="false">
+      <v-app-bar :clipped-left="primaryDrawer.clipped" app :extended="false" color="primary">
         <v-app-bar-nav-icon
           v-if="primaryDrawer.type !== 'permanent'"
           @click.stop="primaryDrawer.model = !primaryDrawer.model"
         />
-        <v-toolbar-title v-if="!search.isActive">Indirect</v-toolbar-title>
+        <v-toolbar-title v-if="!search.isActive" style="color:white">Indirect</v-toolbar-title>
         <v-text-field v-else v-model="search.text" v-on:keyup.enter="onEnterSearch"></v-text-field>
         <v-spacer></v-spacer>
         <v-btn icon v-on:click="search.isActive = !search.isActive">

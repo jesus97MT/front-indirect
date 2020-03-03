@@ -4,7 +4,7 @@
       class="mx-auto"
       max-width="434"
       height="45%"
-      style="background: linear-gradient(to right, #26C6DA 30%, #1DE9B6 70%);"
+      :style="`background: linear-gradient(to right, ${this.$vuetify.theme.themes.light.secondary} 30%, ${this.$vuetify.theme.themes.light.primary} 70%);`"
       align="center"
     >
       <v-row align="end" class="fill-height mx-0">
@@ -40,7 +40,7 @@
         class="mx-auto"
         max-width="434"
         height="45%"
-        style="background: linear-gradient(to right, #1DE9B6 50%, #26C6DA 50%);"
+        :style="`background: linear-gradient(to right, ${this.$vuetify.theme.themes.light.primary} 50%, ${this.$vuetify.theme.themes.light.secondary} 50%);`"
         align="center"
       >
         <v-row align="end" class="fill-height mx-0">
@@ -49,7 +49,7 @@
               <v-list-item class="pa-0" color="rgba(0, 0, 0, .4)" dark>
                 <v-list-item-content>
                   <v-list-item-title class="title">{{ user && user.followers }}</v-list-item-title>
-                  <v-list-item-subtitle>Followers</v-list-item-subtitle>
+                  <v-list-item-subtitle >Followers</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-content>
                   <v-list-item-title class="title">{{ user && user.following }}</v-list-item-title>

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-container fluid fill-height style="background-color: rgba(255, 255, 255, 0.5);">
+    <v-container fluid fill-height :style="`background-color:${this.$vuetify.theme.themes.light.base}`">
       <v-layout justify-center align-center>
         <div>
           <v-img src="../../public/logo/logo.png" width="250px" height="250px"></v-img>

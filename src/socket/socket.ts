@@ -53,7 +53,8 @@ function reconnect() {
 function setUserData(op: string) {
     socket.on(op, (user: any) => {
         const loginStore: any = store;
-
+        console.log(op)
+        console.log(user)
         if (user) {
             loginStore['_mutations']['user/setUserData'][0](user);
         }
