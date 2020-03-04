@@ -23,7 +23,7 @@
           >
             <v-list-item-avatar>
               <img
-                :src="user.profilePicUrl ? user.profilePicUrl : 'https://randomuser.me/api/portraits/men/81.jpg'"
+                :src="user.profilePicUrl ? user.profilePicUrl : defaultPic"
               />
             </v-list-item-avatar>
 
@@ -65,7 +65,7 @@
           v-if="primaryDrawer.type !== 'permanent'"
           @click.stop="primaryDrawer.model = !primaryDrawer.model"
         />
-        <v-toolbar-title v-if="!search.isActive" style="color:white">Indirect</v-toolbar-title>
+        <v-toolbar-title v-if="!search.isActive" style="color:white">Indirect {{user.userUID}}</v-toolbar-title>
         <v-text-field v-else v-model="search.text" v-on:keyup.enter="onEnterSearch"></v-text-field>
         <v-spacer></v-spacer>
         <v-btn icon v-on:click="search.isActive = !search.isActive">
@@ -125,6 +125,9 @@ export default Vue.extend({
   },
   data: () => ({
     isLoading: true,
+    defaultPic: "https://i7.pngguru.com/preview/1/964/992/user-profile-computer-icons-login-clip-art-profile-picture-icon.jpg",
+
+    
     drawers: ["Default (no property)", "Permanent", "Temporary"],
     primaryDrawer: {
       model: null,

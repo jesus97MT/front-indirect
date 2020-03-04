@@ -10,7 +10,9 @@ export const userService = {
     update,
     delete: _delete,
     updateUserData,
-    getUserDataByUserId
+    getUserDataByUserId,
+    followUser,
+    unFollowUser
 };
 
 function login(email: string, password: string) {
@@ -89,6 +91,40 @@ function getUserDataByUserId(userId: string) {
                 resolve({ user });
             else
                 reject(null);
+        })
+    });
+}
+
+function followUser(userUID: number) {
+    socketOperations.followUser(userUID);
+    var socket = socketOperations.getSocket()
+
+    return new Promise((resolve, reject) => {
+        resolve(true);
+        socket.on('error', (error: any) => {
+            socket.close();
+            reject(null);
+        })
+        socket.on("onFollowUser", (response: any) => {
+            console.log(response)
+            resolve(true);
+        })
+    });
+}
+
+function unFollowUser(userUID: number) {
+    socketOperations.unFollowUser(userUID);
+    var socket = socketOperations.getSocket()
+
+    return new Promise((resolve, reject) => {
+        resolve(true);
+        socket.on('error', (error: any) => {
+            socket.close();
+            reject(null);
+        })
+        socket.on("onUnFollowUser", (response: any) => {
+            console.log(response)
+            resolve(true);
         })
     });
 }

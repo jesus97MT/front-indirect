@@ -77,11 +77,34 @@ function getUserByUserId(userId: string) {
     socket.emit(op, userId);
 }
 
+function followUser(userUID: number) {
+    const token = getToken();
+    const op = "followUser";
+    const data = {token, data: userUID};
+    socket.emit(op, data);
+}
+
+function unFollowUser(userUID: number) {
+    const token = getToken();
+    const op = "unFollowUser";
+    const data = {token, data: userUID};
+    socket.emit(op, data);
+}
+
+function getToken() {
+    const accountStore: any = store;
+    const token = accountStore['state']['account']['token'] || localStorage.getItem('token');
+    
+    return token;    
+}
+
 export const socketOperations = {
     login,
     getSocket,
     reconnect,
     createUser,
     updateUserData,
-    getUserByUserId
+    getUserByUserId,
+    followUser,
+    unFollowUser
 } 

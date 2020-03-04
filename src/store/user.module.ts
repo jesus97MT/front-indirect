@@ -67,7 +67,42 @@ const actions = {
                 //dispatch('alert/error', error, { root: true });
             }
         );
-    }
+    },
+    followUser({ commit }: any, userUID: number) {
+        userService.followUser(userUID)
+        .then(
+            (data: any) => {
+                const user = data.user;
+                //commit('setPublicProfile', user);
+                //commit('loginSuccess', user);
+
+            },
+            error => {
+                //router.push('/profile-not-found');
+                //console.log("Profile not found")
+                //commit('loginFailure', error);
+                //dispatch('alert/error', error, { root: true });
+            }
+        );
+    },
+
+    unFollowUser({ commit }: any, userUID: number) {
+        userService.unFollowUser(userUID)
+        .then(
+            (data: any) => {
+                const user = data.user;
+                //commit('setPublicProfile', user);
+                //commit('loginSuccess', user);
+
+            },
+            error => {
+                //router.push('/profile-not-found');
+                //console.log("Profile not found")
+                //commit('loginFailure', error);
+                //dispatch('alert/error', error, { root: true });
+            }
+        );
+    },
 };
 
 const mutations = {
