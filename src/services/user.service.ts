@@ -100,14 +100,12 @@ function followUser(userUID: number) {
     var socket = socketOperations.getSocket()
 
     return new Promise((resolve, reject) => {
-        resolve(true);
         socket.on('error', (error: any) => {
             socket.close();
             reject(null);
         })
         socket.on("onFollowUser", (response: any) => {
-            console.log(response)
-            resolve(true);
+            resolve(response);
         })
     });
 }
@@ -117,14 +115,12 @@ function unFollowUser(userUID: number) {
     var socket = socketOperations.getSocket()
 
     return new Promise((resolve, reject) => {
-        resolve(true);
         socket.on('error', (error: any) => {
             socket.close();
             reject(null);
         })
         socket.on("onUnFollowUser", (response: any) => {
-            console.log(response)
-            resolve(true);
+            resolve(response);
         })
     });
 }

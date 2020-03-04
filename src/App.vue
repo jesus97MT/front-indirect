@@ -60,7 +60,7 @@
           </div>
         </template>
       </v-navigation-drawer>
-      <v-app-bar :clipped-left="primaryDrawer.clipped" app :extended="false" color="primary">
+      <v-app-bar v-if="account.status && account.status.loggedIn" :clipped-left="primaryDrawer.clipped" app :extended="false" color="primary">
         <v-app-bar-nav-icon
           v-if="primaryDrawer.type !== 'permanent'"
           @click.stop="primaryDrawer.model = !primaryDrawer.model"

@@ -4,6 +4,7 @@ import router from '../router/index';
 
 const state = {
     user: {
+        userUID: 0,
         userId: "",
         name: "",
         surname: "",
@@ -14,6 +15,7 @@ const state = {
         profilePicUrl: ""
     },
     userSearched: {
+        userUID: 0,
         userId: "",
         name: "",
         surname: "",
@@ -30,7 +32,6 @@ const actions = {
         userService.updateUserData(user)
             .then(
                 data => {
-                    console.log('setUserData');
                     commit('setUserData', user);
                     //commit('loginSuccess', user);
 
@@ -53,55 +54,44 @@ const actions = {
 
     findPublicProfile({ commit }: any, userId: any) {
         userService.getUserDataByUserId(userId)
-        .then(
-            (data: any) => {
-                const user = data.user;
-                commit('setPublicProfile', user);
-                //commit('loginSuccess', user);
+            .then(
+                (data: any) => {
+                    const user = data.user;
+                    commit('setPublicProfile', user);
+                    //commit('loginSuccess', user);
 
-            },
-            error => {
-                router.push('/profile-not-found');
-                console.log("Profile not found")
-                //commit('loginFailure', error);
-                //dispatch('alert/error', error, { root: true });
-            }
-        );
+                },
+                error => {
+                    router.push('/profile-not-found');
+                    console.log("Profile not found")
+                    //commit('loginFailure', error);
+                    //dispatch('alert/error', error, { root: true });
+                }
+            );
     },
+    
     followUser({ commit }: any, userUID: number) {
         userService.followUser(userUID)
-        .then(
-            (data: any) => {
-                const user = data.user;
-                //commit('setPublicProfile', user);
-                //commit('loginSuccess', user);
-
-            },
-            error => {
-                //router.push('/profile-not-found');
-                //console.log("Profile not found")
-                //commit('loginFailure', error);
-                //dispatch('alert/error', error, { root: true });
-            }
-        );
+            .then(
+                (data: any) => {
+                    commit('setFollow', {toFollowUID: data[1], fromFollowUID: data[0]});
+                },
+                error => {
+                    console.log(error);
+                }
+            );
     },
 
     unFollowUser({ commit }: any, userUID: number) {
         userService.unFollowUser(userUID)
-        .then(
-            (data: any) => {
-                const user = data.user;
-                //commit('setPublicProfile', user);
-                //commit('loginSuccess', user);
-
-            },
-            error => {
-                //router.push('/profile-not-found');
-                //console.log("Profile not found")
-                //commit('loginFailure', error);
-                //dispatch('alert/error', error, { root: true });
-            }
-        );
+            .then(
+                (data: any) => {
+                    commit('setUnFollow', {toUnFollowUID: data[1], fromUnFollowUID: data[0]});
+                },
+                error => {
+                    console.log(error);
+                }
+            );
     },
 };
 
@@ -117,6 +107,30 @@ const mutations = {
         state.userSearched = user;
 
     },
+
+    setFollow(state: any, users: any) {
+        const fromFollowUID = users.fromFollowUID
+        const toFollowUID = users.toFollowUID
+
+        state.userSearched.followers.push(fromFollowUID);
+        state.user.following.push(toFollowUID);
+    },
+
+    setUnFollow(state: any, users:any) {
+        const fromUnFollowUID = users.fromUnFollowUID
+        const toUnFollowUID = users.toUnFollowUID
+        const index = state.userSearched.followers.indexOf(fromUnFollowUID);
+        
+        if (index > -1) {
+            state.userSearched.followers.splice(index, 1);
+        }
+
+        const index2 = state.user.following.indexOf(toUnFollowUID);
+        if (index2 > -1) {
+            state.user.following.splice(index2, 1);
+        }
+
+    }
 
 };
 

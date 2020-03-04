@@ -132,7 +132,7 @@
         fixed
         bottom
         v-on:click="onFollowButton"
-        color="primary"
+        :color="isFollowing() ? 'error' : 'primary'"
       >{{isFollowing() ? "Dejar de seguir" : "Seguir"}}</v-btn>
     </div>
   </div>
