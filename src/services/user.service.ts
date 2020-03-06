@@ -27,7 +27,7 @@ function login(email: string, password: string) {
         socket.on("getToken", (token: any) => {
             localStorage.setItem('user', email);
             localStorage.setItem('token', token);
-            console.log('CONTECTADOSSS')
+            //console.log('CONTECTADOSSS')
             resolve({ email, token })
         })
     });
@@ -52,7 +52,7 @@ function register(email: string, password: string, userId: string) {
         socket.on("getToken", (token: any) => {
             localStorage.setItem('user', email);
             localStorage.setItem('token', token);
-            console.log('CONTECTADOSSS')
+            //console.log('CONTECTADOSSS')
             resolve({ email, token })
         })
     });

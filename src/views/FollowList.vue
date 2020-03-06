@@ -1,23 +1,14 @@
 <template>
   <div>
-    <ProfileForm
-      :user.sync="ownProfile? user : userFind"
-      :userFollowing.sync="!ownProfile && user && user.following || null"
-      :ownProfile.sync="ownProfile"
-      @onSaveData="onSaveData"
-      @onCancelEdit="onCancelEdit"
-      @onFollow="onFollow"
-      @onUnFollow="onUnFollow"
-      @onFollowersList="onFollowersList"
-      @onFollowingList="onFollowingList"
-    />
+    hola
   </div>
 </template>
 <script >
 import { mapGetters, mapActions, mapState } from "vuex";
-import ProfileForm from "@/components/ProfileForm.vue";
+//import ProfileForm from "@/components/ProfileForm.vue";
 
 export default {
+    /*
   components: {
     ProfileForm
   },
@@ -43,7 +34,7 @@ export default {
       "resetUserData",
       "findPublicProfile",
       "followUser",
-      "unFollowUser"
+      "unFollowUser",
     ]),
     onSaveData() {
       this.saveUserData(this.user);
@@ -58,27 +49,13 @@ export default {
     onUnFollow() {
       if (this.userFind && this.userFind.userUID)
         this.unFollowUser(this.userFind.userUID);
-    },
-    onFollowersList() {
-      const userId = this.$route.params.id;
-      var url = "/followers";
-
-      if (!this.ownProfile && userId) url += `/${userId}`;
-
-      this.$router.push(url);
-    },
-    onFollowingList() {
-      const userId = this.$route.params.id;
-      var url = "/following";
-
-      if (!this.ownProfile && userId) url += `/${userId}`;
-      this.$router.push(url);
     }
   },
   data() {
     return {
       ownProfile: true
     };
-  }
+  }*/
 };
+
 </script>

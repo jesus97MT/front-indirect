@@ -100,7 +100,7 @@ export default Vue.extend({
       },
       error => {
         this.isLoading = false;
-        console.log(error);
+        //console.error(error);
       }
     );
   },
@@ -125,7 +125,7 @@ export default Vue.extend({
   },
   data: () => ({
     isLoading: true,
-    defaultPic: "https://i7.pngguru.com/preview/1/964/992/user-profile-computer-icons-login-clip-art-profile-picture-icon.jpg",
+    defaultPic: "https://iupac.org/wp-content/uploads/2018/05/default-avatar.png",
 
     
     drawers: ["Default (no property)", "Permanent", "Temporary"],

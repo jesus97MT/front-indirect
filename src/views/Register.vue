@@ -35,8 +35,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import store from "../store";
+import { mapActions } from "vuex";
 
 // @ is an alias to /src
 
@@ -50,7 +49,6 @@ export default {
       }
     };
   },
-  store,
   methods: {
     ...mapActions("account", ["register"]),
     onRegister() {

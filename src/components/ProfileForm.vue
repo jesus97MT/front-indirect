@@ -4,13 +4,13 @@
       class="mx-auto"
       max-width="434"
       height="45%"
-      :style="`background: linear-gradient(to right, ${this.$vuetify.theme.themes.light.secondary} 30%, ${this.$vuetify.theme.themes.light.primary} 70%);`"
+      :style="`background: linear-gradient(to right, ${this.$vuetify.theme.themes.light.secondary} 0%, ${this.$vuetify.theme.themes.light.primary} 130%);`"
       align="center"
     >
       <v-row align="end" class="fill-height mx-0">
         <v-col align-self="start" class="pa-0" cols="12">
           <v-sheet elevation="20" class="mx-auto" height="164" width="164" light>
-            <v-avatar class="profile" color="grey" size="164" tile>
+            <v-avatar class="profile" size="164" tile>
               <v-img :src="user && user.profilePicUrl || defaultPic"></v-img>
             </v-avatar>
           </v-sheet>
@@ -50,12 +50,14 @@
                 <v-list-item-content>
                   <v-list-item-title
                     class="title"
+                    v-on:click="onFollowersList()"
                   >{{ user && user.followers && user.followers.length || 0 }}</v-list-item-title>
                   <v-list-item-subtitle>Followers</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-content>
                   <v-list-item-title
                     class="title"
+                    v-on:click="onFollowingList()"
                   >{{ user && user.following && user.following.length || 0}}</v-list-item-title>
                   <v-list-item-subtitle>Following</v-list-item-subtitle>
                 </v-list-item-content>
@@ -148,33 +150,27 @@ export default class ProfileForm extends Vue {
   @Prop() private userFollowing!: Array<number>;
   private editing = false;
   private defaultPic =
-    "https://i7.pngguru.com/preview/1/964/992/user-profile-computer-icons-login-clip-art-profile-picture-icon.jpg";
+    "https://iupac.org/wp-content/uploads/2018/05/default-avatar.png";
 
   isFollowing() {
     if (!this.ownProfile && this.userFollowing) {
-        const exist = this.userFollowing.indexOf(this.user.userUID);
-        return exist !== -1
+      const exist = this.userFollowing.indexOf(this.user.userUID);
+      return exist !== -1;
     }
   }
 
   onSaveData() {
-    //emit
     this.editing = false;
     this.$emit("onSaveData");
-    //this.saveUserData(this.user);
   }
   onCancelEdit() {
-    //emit
     this.editing = false;
     this.$emit("onCancelEdit");
-    //this.resetUserData();
   }
 
   onFollowButton() {
-    if (this.isFollowing())
-        this.unFollow();
-    else
-        this.follow();
+    if (this.isFollowing()) this.unFollow();
+    else this.follow();
   }
 
   follow() {
@@ -182,7 +178,15 @@ export default class ProfileForm extends Vue {
   }
 
   unFollow() {
-      this.$emit("onUnFollow");
+    this.$emit("onUnFollow");
+  }
+
+  onFollowersList() {
+    this.$emit("onFollowersList");
+  }
+
+  onFollowingList() {
+    this.$emit("onFollowingList");
   }
 }
 </script>

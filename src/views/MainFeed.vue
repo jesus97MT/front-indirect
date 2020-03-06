@@ -80,7 +80,7 @@ export default {
   },
   mounted() {
     this.socket.on("setUserName", data => {
-      console.log(data);
+      //console.log(data);
       //   this.userConected = data
     });
   }

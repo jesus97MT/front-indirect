@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-const url = "http://localhost:8000";
+const url = "https://indirect-back.herokuapp.com/";
 var socket: any = io(url);
 
 import { store } from '../store/'

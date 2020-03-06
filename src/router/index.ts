@@ -7,6 +7,8 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Profile from '../views/Profile.vue'
 import ProfileNotFound from '../components/ProfileNotFound.vue'
+import FollowList from '../views/FollowList.vue'
+
 import { store } from '../store/index'
 
 Vue.use(VueRouter)
@@ -41,6 +43,26 @@ const routes = [
     path: '/profile-not-found',
     name: 'Profile',
     component: ProfileNotFound
+  },
+  {
+    path: '/following',
+    name: 'FollowList',
+    component: FollowList
+  },
+  {
+    path: '/following:id',
+    name: 'FollowList',
+    component: FollowList
+  },
+  {
+    path: '/followers',
+    name: 'FollowList',
+    component: FollowList
+  },
+  {
+    path: '/followers/:id',
+    name: 'FollowList',
+    component: FollowList
   },
   {
     path: '/about',
