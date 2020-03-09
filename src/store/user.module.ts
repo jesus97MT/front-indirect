@@ -53,28 +53,15 @@ const actions = {
     },
 
     findPublicProfile({ commit }: any, userId: any) {
-        userService.getUserDataByUserId(userId)
-            .then(
-                (data: any) => {
-                    const user = data.user;
-                    commit('setPublicProfile', user);
-                    //commit('loginSuccess', user);
+        userService.getUserDataByUserId(userId, commit)
 
-                },
-                error => {
-                    router.push('/profile-not-found');
-                    console.log("Profile not found")
-                    //commit('loginFailure', error);
-                    //dispatch('alert/error', error, { root: true });
-                }
-            );
     },
-    
+
     followUser({ commit }: any, userUID: number) {
         userService.followUser(userUID)
             .then(
                 (data: any) => {
-                    commit('setFollow', {toFollowUID: data[1], fromFollowUID: data[0]});
+                    commit('setFollow', { toFollowUID: data[1], fromFollowUID: data[0] });
                 },
                 error => {
                     console.log(error);
@@ -86,7 +73,7 @@ const actions = {
         userService.unFollowUser(userUID)
             .then(
                 (data: any) => {
-                    commit('setUnFollow', {toUnFollowUID: data[1], fromUnFollowUID: data[0]});
+                    commit('setUnFollow', { toUnFollowUID: data[1], fromUnFollowUID: data[0] });
                 },
                 error => {
                     console.log(error);
@@ -116,11 +103,11 @@ const mutations = {
         state.user.following.push(toFollowUID);
     },
 
-    setUnFollow(state: any, users:any) {
+    setUnFollow(state: any, users: any) {
         const fromUnFollowUID = users.fromUnFollowUID
         const toUnFollowUID = users.toUnFollowUID
         const index = state.userSearched.followers.indexOf(fromUnFollowUID);
-        
+
         if (index > -1) {
             state.userSearched.followers.splice(index, 1);
         }

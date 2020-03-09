@@ -1,5 +1,8 @@
 import io from 'socket.io-client'
-const url = "https://indirect-back.herokuapp.com/";
+const urlProd = "https://indirect-back.herokuapp.com/";
+const urlDev = "http://localhost:8000";
+const url = urlDev;
+
 var socket: any = io(url);
 
 import { store } from '../store/'

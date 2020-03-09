@@ -77,22 +77,17 @@ function updateUserData(user: any) {
     });
 }
 
-function getUserDataByUserId(userId: string) {
+function getUserDataByUserId(userId: string, commit :any) {
     socketOperations.getUserByUserId(userId);
     var socket = socketOperations.getSocket()
 
-    return new Promise((resolve, reject) => {
         socket.on('error', (error: any) => {
             socket.close();
-            reject(null);
         })
         socket.on("getUserByUserId", (user: any) => {
-            if (user)
-                resolve({ user });
-            else
-                reject(null);
+            commit('setPublicProfile', user);
+            
         })
-    });
 }
 
 function followUser(userUID: number) {
