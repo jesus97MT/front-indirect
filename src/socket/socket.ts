@@ -78,6 +78,11 @@ function getUserByUserId(userId: string) {
     socket.emit(op, userId);
 }
 
+function getUserByToken(token: string) {
+    const op = "findUserByToken";
+    socket.emit(op, token);
+}
+
 function followUser(userUID: number) {
     const token = getToken();
     const op = "followUser";
@@ -107,5 +112,6 @@ export const socketOperations = {
     updateUserData,
     getUserByUserId,
     followUser,
-    unFollowUser
+    unFollowUser,
+    getUserByToken
 } 

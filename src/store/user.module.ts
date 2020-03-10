@@ -1,5 +1,7 @@
 import { userService } from '../services';
 import router from '../router/index';
+import Vue from 'vue';
+import { Observable } from 'rxjs';
 
 
 const state = {
@@ -28,6 +30,22 @@ const state = {
 };
 
 const actions = {
+    getOwnUserdata({ commit }: any, onDestroy: Promise<any>) {
+        const token: any = localStorage.getItem('token') || null;
+        if (token) {
+            var updateData$: any = userService.getUserData(token);
+            updateData$ = updateData$.subscribe((user: any) => {
+                commit('setUserData', user);
+            });
+
+            onDestroy.then((resolve: any) => {
+                const event = "getUserByToken";
+                updateData$.unsubscribe();
+                userService.stopListenSocket(event);
+            });
+        }
+    },
+
     saveUserData({ commit }: any, user: any) {
         userService.updateUserData(user)
             .then(
@@ -52,8 +70,20 @@ const actions = {
         commit('setUserData', user);
     },
 
-    findPublicProfile({ commit }: any, userId: any) {
-        userService.getUserDataByUserId(userId, commit)
+    findPublicProfile({ commit }: any, data: any) {
+        const userId = data.userId;
+        const onDestroy: Promise<any> = data.promise;
+        var updateData$: any = userService.getUserDataByUserId(userId, commit);
+
+        updateData$ = updateData$.subscribe((user: any) => {
+            commit('setPublicProfile', user);
+        });
+
+        onDestroy.then((resolve: any) => {
+            const event = "getUserByUserId";
+            updateData$.unsubscribe();
+            userService.stopListenSocket(event);
+        })
 
     },
 

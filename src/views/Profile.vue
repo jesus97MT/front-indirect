@@ -16,6 +16,7 @@
 <script >
 import { mapGetters, mapActions, mapState } from "vuex";
 import ProfileForm from "@/components/ProfileForm.vue";
+var onDestroy;
 
 export default {
   components: {
@@ -32,13 +33,24 @@ export default {
   },
   mounted() {
     const userId = this.$route.params.id;
+    const promise = new Promise(function(resolve, reject) {
+      onDestroy = resolve;
+    });
+
     if (userId) {
       this.ownProfile = false;
-      this.findPublicProfile(userId);
+      this.findPublicProfile({ userId, promise });
+    } else {
+      this.getOwnUserdata(promise);
     }
+  },
+
+  destroyed() {
+    onDestroy();
   },
   methods: {
     ...mapActions("user", [
+      "getOwnUserdata",
       "saveUserData",
       "resetUserData",
       "findPublicProfile",

@@ -1,6 +1,8 @@
 //import config from 'config';//url
 import { socketOperations } from '../socket/socket'
 import socket from '../socket/socket'
+import { Observable, Subject } from 'rxjs';
+
 export const userService = {
     login,
     logout,
@@ -12,7 +14,9 @@ export const userService = {
     updateUserData,
     getUserDataByUserId,
     followUser,
-    unFollowUser
+    unFollowUser,
+    getUserData,
+    stopListenSocket
 };
 
 function login(email: string, password: string) {
@@ -58,6 +62,23 @@ function register(email: string, password: string, userId: string) {
     });
 }
 
+function getUserData(token: string) {
+    socketOperations.getUserByToken(token);
+    var socket = socketOperations.getSocket();
+
+    return Observable.create((subject: Subject<any>) => {
+        socket.on('error', (error: any) => {
+            socket.close();
+            subject.next(null);
+        });
+
+        socket.on("getUserByToken", (user: any) => {
+            subject.next(user);
+        })
+    })
+
+}
+
 function updateUserData(user: any) {
     socketOperations.updateUserData(user);
     var socket = socketOperations.getSocket();
@@ -77,17 +98,21 @@ function updateUserData(user: any) {
     });
 }
 
-function getUserDataByUserId(userId: string, commit :any) {
+function getUserDataByUserId(userId: string, commit: any) {
     socketOperations.getUserByUserId(userId);
-    var socket = socketOperations.getSocket()
+    var socket = socketOperations.getSocket();
 
+    return Observable.create((subject: Subject<any>) => {
         socket.on('error', (error: any) => {
             socket.close();
-        })
+            subject.next(null);
+        });
+
         socket.on("getUserByUserId", (user: any) => {
-            commit('setPublicProfile', user);
-            
+            subject.next(user);
         })
+    })
+
 }
 
 function followUser(userUID: number) {
@@ -118,6 +143,11 @@ function unFollowUser(userUID: number) {
             resolve(response);
         })
     });
+}
+
+function stopListenSocket(event: string) {
+    var socket = socketOperations.getSocket();
+    socket.off(event);
 }
 
 function getAll() {
