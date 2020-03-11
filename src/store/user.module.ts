@@ -1,7 +1,6 @@
 import { userService } from '../services';
 import router from '../router/index';
-import Vue from 'vue';
-import { Observable } from 'rxjs';
+
 
 
 const state = {
@@ -26,7 +25,8 @@ const state = {
         followers: 0,
         following: 0,
         profilePicUrl: ""
-    }
+    },
+    followList: []
 };
 
 const actions = {
@@ -76,7 +76,11 @@ const actions = {
         var updateData$: any = userService.getUserDataByUserId(userId, commit);
 
         updateData$ = updateData$.subscribe((user: any) => {
-            commit('setPublicProfile', user);
+            if (user) {
+                commit('setPublicProfile', user);
+            } else {
+                router.push('/profile-not-found');
+            }
         });
 
         onDestroy.then((resolve: any) => {
@@ -109,6 +113,25 @@ const actions = {
                     console.log(error);
                 }
             );
+    },
+
+    findUserFollowList({ commit }: any, data: any) {
+        const userId = data.userId;
+        const typeList = data.typeList;
+        const onDestroy: Promise<any> = data.promise;
+        var updateFollowList$: any = userService.getUserFollowList(userId, typeList);
+
+        updateFollowList$ = updateFollowList$.subscribe((followList: any) => {
+            console.log(followList);
+            commit('setFollowList', followList);
+        });
+
+        /*onDestroy.then((resolve: any) => {
+            const event = "getUserByUserId";
+            updateFollowList$.unsubscribe();
+            userService.stopListenSocket(event);
+        })*/
+
     },
 };
 
@@ -147,6 +170,12 @@ const mutations = {
             state.user.following.splice(index2, 1);
         }
 
+    },
+
+    setFollowList(state: any, list: any) {
+        // TO DO VALIDAR DATOS
+        state.followList = []
+        state.followList = list;
     }
 
 };
@@ -158,6 +187,10 @@ const getters = {
     getPublicProfile(state: any, user: any) {
         return JSON.parse(JSON.stringify(state.userSearched));
     },
+
+    getFollowList(state: any, user: any) {
+        return JSON.parse(JSON.stringify(state.followList));
+    }
 
 }
 

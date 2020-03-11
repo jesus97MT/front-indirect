@@ -16,7 +16,8 @@ export const userService = {
     followUser,
     unFollowUser,
     getUserData,
-    stopListenSocket
+    stopListenSocket,
+    getUserFollowList
 };
 
 function login(email: string, password: string) {
@@ -143,6 +144,23 @@ function unFollowUser(userUID: number) {
             resolve(response);
         })
     });
+}
+
+function getUserFollowList(userId: string, typeList: string) {
+    socketOperations.getUserFollowList(userId, typeList);
+    var socket = socketOperations.getSocket();
+
+    return Observable.create((subject: Subject<any>) => {
+        socket.on('error', (error: any) => {
+            socket.close();
+            subject.next(null);
+        });
+
+        socket.on("getFollowList", (followList: any) => {
+            subject.next(followList);
+        })
+    })
+
 }
 
 function stopListenSocket(event: string) {

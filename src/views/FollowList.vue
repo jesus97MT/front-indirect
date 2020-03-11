@@ -1,6 +1,9 @@
 <template>
   <div>
     hola
+    <ul v-for="user in userList" v-bind:key="user.userUID">
+        <li>{{user.email + " / " + user.name }}</li>
+    </ul>
   </div>
 </template>
 <script >
@@ -8,54 +11,50 @@ import { mapGetters, mapActions, mapState } from "vuex";
 //import ProfileForm from "@/components/ProfileForm.vue";
 
 export default {
-    /*
   components: {
-    ProfileForm
+    //ProfileForm
   },
   computed: {
     ...mapState({
       account: state => state.account
     }),
     ...mapGetters("user", {
-      user: "getUserData",
-      userFind: "getPublicProfile"
+      userList: "getFollowList"
     })
   },
   mounted() {
-    const userId = this.$route.params.id;
-    if (userId) {
-      this.ownProfile = false;
-      this.findPublicProfile(userId);
+    const path = this.$route.path;
+    if (path.includes("following")) {
+      this.typeList = "following";
+    } else if (path.includes("followers")) {
+      this.typeList = "followers";
     }
+
+    //
+    console.log(this.$route.params.id);
+    const userId = this.$route.params.id || null;
+    if (userId) this.ownList = false;
+    const data = { userId, typeList: this.typeList };
+
+    this.findUserFollowList(data);
   },
   methods: {
-    ...mapActions("user", [
-      "saveUserData",
-      "resetUserData",
-      "findPublicProfile",
-      "followUser",
-      "unFollowUser",
-    ]),
-    onSaveData() {
-      this.saveUserData(this.user);
-    },
-    onCancelEdit() {
-      this.resetUserData();
-    },
-    onFollow() {
+    ...mapActions("user", ["findUserFollowList", "followUser", "unFollowUser"])
+
+    /*onFollow() {
       if (this.userFind && this.userFind.userUID)
         this.followUser(this.userFind.userUID);
     },
     onUnFollow() {
       if (this.userFind && this.userFind.userUID)
         this.unFollowUser(this.userFind.userUID);
-    }
+    }*/
   },
   data() {
     return {
-      ownProfile: true
+      ownList: true,
+      typeList: ""
     };
-  }*/
+  }
 };
-
 </script>

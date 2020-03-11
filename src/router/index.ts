@@ -50,7 +50,7 @@ const routes = [
     component: FollowList
   },
   {
-    path: '/following:id',
+    path: '/following/:id',
     name: 'FollowList',
     component: FollowList
   },

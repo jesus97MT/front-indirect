@@ -104,6 +104,13 @@ function getToken() {
     return token;    
 }
 
+function getUserFollowList(userId: string, typeList: string) {
+    const op = "getUserFollowList";
+    const token = getToken();
+    const data = {userId, typeList, token};
+    socket.emit(op, data);
+}
+
 export const socketOperations = {
     login,
     getSocket,
@@ -113,5 +120,6 @@ export const socketOperations = {
     getUserByUserId,
     followUser,
     unFollowUser,
-    getUserByToken
+    getUserByToken,
+    getUserFollowList
 } 
