@@ -150,17 +150,15 @@ function getUserFollowList(userId: string, typeList: string) {
     socketOperations.getUserFollowList(userId, typeList);
     var socket = socketOperations.getSocket();
 
-    return Observable.create((subject: Subject<any>) => {
+    return new Promise((resolve, reject) => {
         socket.on('error', (error: any) => {
             socket.close();
-            subject.next(null);
+            reject(null);
         });
-
         socket.on("getFollowList", (followList: any) => {
-            subject.next(followList);
-        })
-    })
-
+            resolve(followList);
+        });
+    });
 }
 
 function stopListenSocket(event: string) {

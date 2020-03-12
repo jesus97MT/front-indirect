@@ -118,13 +118,16 @@ const actions = {
     findUserFollowList({ commit }: any, data: any) {
         const userId = data.userId;
         const typeList = data.typeList;
-        const onDestroy: Promise<any> = data.promise;
-        var updateFollowList$: any = userService.getUserFollowList(userId, typeList);
 
-        updateFollowList$ = updateFollowList$.subscribe((followList: any) => {
-            console.log(followList);
-            commit('setFollowList', followList);
-        });
+        userService.getUserFollowList(userId, typeList).then(
+            (followList: any) => {
+                commit('setFollowList', followList);
+            },
+            error => {
+                commit('setFollowList', []);
+                console.log(error);
+            }
+        );
 
         /*onDestroy.then((resolve: any) => {
             const event = "getUserByUserId";
@@ -149,27 +152,38 @@ const mutations = {
     },
 
     setFollow(state: any, users: any) {
-        const fromFollowUID = users.fromFollowUID
+        //const fromFollowUID = users.fromFollowUID
         const toFollowUID = users.toFollowUID
+        console.log(toFollowUID)
 
-        state.userSearched.followers.push(fromFollowUID);
-        state.user.following.push(toFollowUID);
+        // if (state.userSearched.followers && state.userSearched.followers.length)
+        //     state.userSearched.followers.push(fromFollowUID);
+        if (state.user.following && state.user.following.length) {
+            state.user.following.push(toFollowUID);
+        } else {
+            state.user.following = [toFollowUID];
+        }
+            
     },
 
     setUnFollow(state: any, users: any) {
-        const fromUnFollowUID = users.fromUnFollowUID
+        //const fromUnFollowUID = users.fromUnFollowUID
         const toUnFollowUID = users.toUnFollowUID
-        const index = state.userSearched.followers.indexOf(fromUnFollowUID);
 
-        if (index > -1) {
-            state.userSearched.followers.splice(index, 1);
+        /*if (state.userSearched.followers) {
+            const index = state.userSearched.followers.indexOf(fromUnFollowUID);
+
+            if (index > -1) {
+                state.userSearched.followers.splice(index, 1);
+            }
+        }*/
+        
+        if (state.user.following && state.user.following.length) {
+            const index2 = state.user.following.indexOf(toUnFollowUID);
+            if (index2 > -1) {
+                state.user.following.splice(index2, 1);
+            }
         }
-
-        const index2 = state.user.following.indexOf(toUnFollowUID);
-        if (index2 > -1) {
-            state.user.following.splice(index2, 1);
-        }
-
     },
 
     setFollowList(state: any, list: any) {

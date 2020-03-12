@@ -1,25 +1,30 @@
 <template>
   <div>
-    hola
-    <ul v-for="user in userList" v-bind:key="user.userUID">
-        <li>{{user.email + " / " + user.name }}</li>
-    </ul>
+    
+    <div v-for="user in userList" v-bind:key="user.userUID">
+      <FollowCard
+        :user.sync="user"
+        :myUser.sync="myUser"
+        @onFollowButton="onFollowButton"
+      ></FollowCard>
+    </div>
   </div>
 </template>
 <script >
 import { mapGetters, mapActions, mapState } from "vuex";
-//import ProfileForm from "@/components/ProfileForm.vue";
+import FollowCard from "@/components/FollowCard.vue";
 
 export default {
   components: {
-    //ProfileForm
+    FollowCard
   },
   computed: {
     ...mapState({
       account: state => state.account
     }),
     ...mapGetters("user", {
-      userList: "getFollowList"
+      userList: "getFollowList",
+      myUser: "getUserData"
     })
   },
   mounted() {
@@ -39,8 +44,18 @@ export default {
     this.findUserFollowList(data);
   },
   methods: {
-    ...mapActions("user", ["findUserFollowList", "followUser", "unFollowUser"])
+    ...mapActions("user", ["findUserFollowList", "followUser", "unFollowUser"]),
 
+    onFollowButton(data) {
+      const typeFollow = data.type;
+      const userUID = data.userUID;
+      if (typeFollow) {
+        this.unFollowUser(userUID);
+      } else {
+        this.followUser(userUID);
+      }
+      console.log(data);
+    }
     /*onFollow() {
       if (this.userFind && this.userFind.userUID)
         this.followUser(this.userFind.userUID);
