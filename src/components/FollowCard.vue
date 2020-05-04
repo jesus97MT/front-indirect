@@ -5,7 +5,6 @@
     color="base"
     :style="`border:0!important; border-bottom:2px solid ${this.$vuetify.theme.themes.light.primary}!important`"
     tile
-    ripple="false"
     @click="$router.push(`/profile/${user.userId}`);"
     
     
@@ -17,12 +16,15 @@
         color="grey"
       ></v-list-item-avatar>
       <v-list-item-content>
-        <div class="overline mb-4">@{{user.userId}}</div>
-        <div style="display:flex">
-        <v-list-item-title class="headline mb-1">{{user.name}}</v-list-item-title>
-        <v-btn color="primary" v-on:click.stop="onFollowButton()">{{isFollowing() ? "Unfollow" : "Follow"}}</v-btn>
+        <div style="display:flex; justify-content: space-between">
 
+        <div class="overline mb-4">@{{user.userId}}</div>
+        <v-btn :color="isFollowing() ? 'error' : 'primary'" v-on:click.stop="onFollowButton()">{{isFollowing() ? "Unfollow" : "Follow"}}</v-btn>
         </div> 
+
+
+        <v-list-item-title class="headline mb-1">{{user.name}}</v-list-item-title>
+
       </v-list-item-content>
 
       
