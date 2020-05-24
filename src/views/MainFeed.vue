@@ -1,10 +1,23 @@
 <template>
   <div>
-    <button v-on:click="clickButton">TEst</button>
-    <button v-on:click="clickDisconect">Disconect</button>
     <div class="home" v-for="indirect in indirects" v-bind:key="indirect.id">
-      <Indirect :text="indirect.text" :date="indirect.date" :userImg="indirect.userImg" />
+      <Indirect
+        :text="indirect.text"
+        :date="indirect.date"
+        :userImg="indirect.userImg"
+        :type="true"
+      />
     </div>
+        <v-btn
+      dark
+      fixed
+      bottom
+      right
+      fab
+      @click="onAddIndirect"
+    >
+      <v-icon>edit</v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -26,6 +39,9 @@ export default {
     },
     clickDisconect: function(data) {
       this.logout();
+    },
+    onAddIndirect() {
+      this.$router.push("/add");
     }
   },
   data() {
@@ -84,5 +100,7 @@ export default {
       //   this.userConected = data
     });
   }
+
+ 
 };
 </script>

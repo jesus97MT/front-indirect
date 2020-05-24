@@ -8,6 +8,7 @@ import Register from '../views/Register.vue'
 import Profile from '../views/Profile.vue'
 import ProfileNotFound from '../components/ProfileNotFound.vue'
 import FollowList from '../views/FollowList.vue'
+import NewIndirect from '../views/NewIndirect.vue'
 
 import { store } from '../store/index'
 
@@ -63,6 +64,11 @@ const routes = [
     path: '/followers/:id',
     name: 'FollowList',
     component: FollowList
+  },
+  {
+    path: '/add',
+    name: 'NewIndirect',
+    component: NewIndirect
   },
   {
     path: '/about',

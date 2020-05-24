@@ -36,7 +36,6 @@ export default {
     }
 
     //
-    console.log(this.$route.params.id);
     const userId = this.$route.params.id || null;
     if (userId) this.ownList = false;
     const data = { userId, typeList: this.typeList };
@@ -54,7 +53,6 @@ export default {
       } else {
         this.followUser(userUID);
       }
-      console.log(data);
     }
     /*onFollow() {
       if (this.userFind && this.userFind.userUID)

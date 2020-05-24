@@ -44,7 +44,6 @@ export default class FollowCard extends Vue {
     "https://iupac.org/wp-content/uploads/2018/05/default-avatar.png";
 
     isFollowing() {
-        console.log(this.myUser.following);
         const isFollowing = this.myUser.following.find((userUID: string) => userUID == this.user.userUID);
         return !!isFollowing;
     }
@@ -56,7 +55,6 @@ export default class FollowCard extends Vue {
     }
 
     test() {
-        console.log("sdasdsa")
     }
 
 

@@ -1,35 +1,49 @@
 export const HEADER_NAV =
     {
-        default: {
+        "default": {
             navigationDrawer: true,
             title: "Indirect", 
             iconRight: "mdi-magnify",
             methodRight: "onSearch"
         },
-        profile: {
+        "profile": {
             navigationDrawer: false,
             iconLeft: "mdi-arrow-left",
             methodLeft: "returnBack",
             title: "Profile", 
-            iconRight: "",
-            methodRight: ""
+            iconRight: "mdi-home",
+            methodRight: "onHome"
         },
-        following: {
+        "following": {
             navigationDrawer: false,
             iconLeft: "mdi-arrow-left",
             methodLeft: "returnBack",
             title: "Following", 
-            iconRight: "",
-            methodRight: ""
+            iconRight: "mdi-home",
+            methodRight: "onHome"
         },
-        followers: {
+        "followers": {
             navigationDrawer: false,
             iconLeft: "mdi-arrow-left",
             methodLeft: "returnBack",
             title: "Followers", 
-            iconRight: "",
-            methodRight: ""
+            iconRight: "mdi-home",
+            methodRight: "onHome"
         },
+        "profile-not-found": {
+            navigationDrawer: false,
+            iconLeft: "mdi-arrow-left",
+            methodLeft: "returnBack",
+            title: "Not found", 
+            iconRight: "mdi-home",
+            methodRight: "onHome"
+        },
+        "add": {
+            navigationDrawer: false,
+            iconLeft: "mdi-arrow-left",
+            methodLeft: "returnBack",
+            title: "New Indirect", 
+            iconRight: "mdi-home",
+            methodRight: "onHome"
+        }
     }
-
-    export const test = "lucie";

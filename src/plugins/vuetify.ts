@@ -10,7 +10,12 @@ export default new Vuetify({
             primary: "#26C6DA", //azulito
             secondary: "#f3aa82", //marron
             base: "#fff6ed", // blanco amarillo
-            text: "#455A64"
+            text: "#455A64",
+            separator: "#abd1d6",
+            indirect1: "", //indirect mio
+            indirect2: "", // indirect adivinado
+            indirect3: "", //indirect public
+            indirect4: "",
           },
         },
       },

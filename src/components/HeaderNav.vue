@@ -60,6 +60,8 @@
       app
       :extended="false"
       color="primary"
+      elevation="0"
+      :style="`border-bottom:1px solid ${this.$vuetify.theme.themes.light.separator}!important`"
     >
       <v-app-bar-nav-icon
         v-if="navOptions[$route.fullPath.split('/')[1] || 'default']['navigationDrawer']"
@@ -132,6 +134,9 @@ export default class HeaderNav extends Vue {
     }
     returnBack() {
       this.$router.go(-1);
+    }
+    onHome() {
+      this.$router.push("/");
     }
 
     
