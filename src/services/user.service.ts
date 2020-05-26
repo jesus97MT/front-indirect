@@ -17,7 +17,8 @@ export const userService = {
     unFollowUser,
     getUserData,
     stopListenSocket,
-    getUserFollowList
+    getUserFollowList,
+    getUserMutualList
 };
 
 function login(email: string, password: string) {
@@ -157,6 +158,21 @@ function getUserFollowList(userId: string, typeList: string) {
         });
         socket.on("getFollowList", (followList: any) => {
             resolve(followList);
+        });
+    });
+}
+
+function getUserMutualList(userId: string) {
+    socketOperations.getUserMutualList(userId);
+    var socket = socketOperations.getSocket();
+
+    return new Promise((resolve, reject) => {
+        socket.on('error', (error: any) => {
+            socket.close();
+            reject(null);
+        });
+        socket.on("getMutualList", (mutualList: any) => {
+            resolve(mutualList);
         });
     });
 }

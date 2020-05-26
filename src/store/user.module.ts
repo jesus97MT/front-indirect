@@ -26,7 +26,8 @@ const state = {
         following: 0,
         profilePicUrl: ""
     },
-    followList: []
+    followList: [],
+    mutualList: []
 };
 
 const actions = {
@@ -136,7 +137,29 @@ const actions = {
         })*/
 
     },
+
+    findUserMutuals({ commit }: any, data: any) {
+        const userId = data.userId;
+
+        userService.getUserMutualList(userId).then(
+            (mutualList: any) => {
+                commit('setMutualList', mutualList);
+            },
+            error => {
+                commit('setMutualList', []);
+                console.log(error);
+            }
+        );
+
+        /*onDestroy.then((resolve: any) => {
+            const event = "getUserByUserId";
+            updateFollowList$.unsubscribe();
+            userService.stopListenSocket(event);
+        })*/
+
+    },
 };
+
 
 const mutations = {
     setUserData(state: any, user: any) {
@@ -190,6 +213,12 @@ const mutations = {
         // TO DO VALIDAR DATOS
         state.followList = []
         state.followList = list;
+    },
+
+    setMutualList(state: any, list: any) {
+        // TO DO VALIDAR DATOS
+        state.mutualList = []
+        state.mutualList = list;
     }
 
 };
@@ -204,6 +233,10 @@ const getters = {
 
     getFollowList(state: any, user: any) {
         return JSON.parse(JSON.stringify(state.followList));
+    },
+
+    getMutualList(state: any, user: any) {
+        return JSON.parse(JSON.stringify(state.mutualList));
     }
 
 }

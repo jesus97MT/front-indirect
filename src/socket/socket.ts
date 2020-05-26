@@ -111,6 +111,13 @@ function getUserFollowList(userId: string, typeList: string) {
     socket.emit(op, data);
 }
 
+function getUserMutualList(userId: string) {
+    const op = "getUserMutuals";
+    const token = getToken();
+    const data = {userId, token};
+    socket.emit(op, data);
+}
+
 export const socketOperations = {
     login,
     getSocket,
@@ -121,5 +128,6 @@ export const socketOperations = {
     followUser,
     unFollowUser,
     getUserByToken,
-    getUserFollowList
+    getUserFollowList,
+    getUserMutualList
 } 

@@ -93,7 +93,7 @@
           align="center"
           justify="end"
         >
-          <v-btn class=" mt-6 mb-4" block v-on:click="onSend" color="secondary">Send</v-btn>
+          <v-btn class=" mt-6 mb-4" block color="secondary" @click="test">Send</v-btn>
         </v-row>
       </v-list-item>
     </v-card-actions>
@@ -112,7 +112,14 @@ export default class Indirect extends Vue {
   @Prop() private date!: string;
   @Prop() private userImg!: string;
   @Prop() private type!: boolean;
+  @Prop() private mutualList!: object;
+
+  test() {
+    console.log(this.mutualList)
+  }
 }
+
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
