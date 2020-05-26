@@ -82,11 +82,24 @@
           ></v-img>
         </v-list-item-avatar>
 
-        <v-list-item-content>
+        <v-list-item-content v-if="typeNewIndirect">
           <v-list-item-title>Public</v-list-item-title>
         </v-list-item-content>
+        <v-list-item-content v-else>
+          <v-list-item-title>
+            <v-select
+          v-model="e7"
+          :items="mutualList"
+          label="Select"
+          multiple
+          chips
+          hint="What are the target regions"
+          persistent-hint
+        ></v-select>
+          </v-list-item-title>
+        </v-list-item-content>
         <v-list-item-content>
-          <v-switch v-model="showMessages" label="Public indirect"></v-switch>
+          <v-switch v-model="typeNewIndirect" label="Public indirect"></v-switch>
         </v-list-item-content>
 
         <v-row
@@ -113,6 +126,8 @@ export default class Indirect extends Vue {
   @Prop() private userImg!: string;
   @Prop() private type!: boolean;
   @Prop() private mutualList!: object;
+
+  private typeNewIndirect:boolean = true;
 
   test() {
     console.log(this.mutualList)
