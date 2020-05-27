@@ -2,6 +2,7 @@
   <Indirect
     :type="false"
     :mutualList="mutualListParsed"
+    @onSendIndirect="onSendIndirect($event)"
   ></Indirect>
 </template>
 <script >
@@ -9,7 +10,7 @@
 import Indirect from "@/components/Indirect.vue";
 import { mapGetters, mapActions } from "vuex";
 
-let mutualListParsed = [];
+
 
 
 export default {
@@ -24,8 +25,17 @@ export default {
   watch: {
     mutualList(c,c1) {
       this.mutualList.forEach(user => {
-        const data = { text: user.userId, value: user.userUID }
-        mutualListParsed.push(user.userId);
+        const test = {text: "dada", value:31231, avatar:"https://png.pngtree.com/png-clipart/20190924/original/pngtree-user-vector-avatar-png-image_4830521.jpg"}
+        const test2 = {text: "dad33a", value:1111, avatar:"https://png.pngtree.com/png-clipart/20190924/original/pngtree-user-vector-avatar-png-image_4830521.jpg"}
+        const test3 = {text: "da33da", value:22222, avatar:"https://png.pngtree.com/png-clipart/20190924/original/pngtree-user-vector-avatar-png-image_4830521.jpg"}
+
+        this.mutualListParsed.push(test);
+        this.mutualListParsed.push(test2);
+        this.mutualListParsed.push(test3);
+
+
+        const data = { text: `@${user.userId}`, value: user.userUID, avatar: user.profilePicUrl }
+        this.mutualListParsed.push(data);
       });
     }
   },
@@ -37,9 +47,13 @@ export default {
 
   methods: {
     ...mapActions("user", ["findUserMutuals"]),
+    onSendIndirect(indirect) {
+      console.log(indirect)
+    }
   },
   data() {
     return {
+      mutualListParsed: []
     };
   }
 };

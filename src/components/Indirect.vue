@@ -1,119 +1,105 @@
 <template>
-<div>
-<v-card
-    class="mx-auto"
-    color="#26c6da"
-    dark
-    tile
-    v-if="type"
+  <div>
+    <v-card
+      class="mx-auto"
+      color="#26c6da"
+      dark
+      tile
+      v-if="type"
       :style="`border-bottom:1px solid ${this.$vuetify.theme.themes.light.separator}!important`"
-    
-  >
-    <v-card-title>
-      <v-icon
-        large
-        left
-      >
-        mdi-twitter
-      </v-icon>
-      <span class="title font-weight-light">{{date}}</span>
-    </v-card-title>
+    >
+      <v-card-title>
+        <v-icon large left>mdi-twitter</v-icon>
+        <span class="title font-weight-light">{{date}}</span>
+      </v-card-title>
 
-    <v-card-text class="headline font-weight-bold">
-      {{text}}
-    </v-card-text>
+      <v-card-text class="headline font-weight-bold">{{text}}</v-card-text>
 
-    <v-card-actions>
-      <v-list-item class="grow">
-        <v-list-item-avatar color="grey darken-3">
-          <v-img
-            class="elevation-6"
-            :src="userImg"
-          ></v-img>
-        </v-list-item-avatar>
+      <v-card-actions>
+        <v-list-item class="grow">
+          <v-list-item-avatar color="grey darken-3">
+            <v-img class="elevation-6" :src="userImg"></v-img>
+          </v-list-item-avatar>
 
-        <v-list-item-content>
-          <v-list-item-title>Evan You</v-list-item-title>
-        </v-list-item-content>
+          <v-list-item-content>
+            <v-list-item-title>Evan You</v-list-item-title>
+          </v-list-item-content>
 
-        <v-row
-          align="center"
-          justify="end"
-        >
-          <v-icon class="mr-1">mdi-heart</v-icon>
-          <span class="subheading mr-2">256</span>
-          <span class="mr-1">·</span>
-          <v-icon class="mr-1">mdi-share-variant</v-icon>
-          <span class="subheading">45</span>
-        </v-row>
-      </v-list-item>
-    </v-card-actions>
-  </v-card>
-  <v-card
-    class="mx-auto"
-    color="#26c6da"
-    dark
-    tile
-    v-else
-  >
-    <v-card-title>
-      <v-icon
-        large
-        left
-      >
-        mdi-twitter
-      </v-icon>
-      <span class="title font-weight-light">{{date}}</span>
-    </v-card-title>
+          <v-row align="center" justify="end">
+            <v-icon class="mr-1">mdi-heart</v-icon>
+            <span class="subheading mr-2">256</span>
+            <span class="mr-1">·</span>
+            <v-icon class="mr-1">mdi-share-variant</v-icon>
+            <span class="subheading">45</span>
+          </v-row>
+        </v-list-item>
+      </v-card-actions>
+    </v-card>
+    <v-card class="mx-auto" color="#26c6da" dark tile v-else>
+      <v-card-title>
+        <v-icon large left>mdi-twitter</v-icon>
+        <span class="title font-weight-light">{{date}}</span>
+      </v-card-title>
 
-    <v-card-text class="headline font-weight-bold">
-      <v-textarea
-          name="input-7-4"
-          label="Create a new Indirect!!"
-        ></v-textarea>
-    </v-card-text>
+      <v-card-text class="headline font-weight-bold">
+        <v-textarea v-model="textNewIndirect" name="input-7-4" label="Create a new Indirect!!"></v-textarea>
+      </v-card-text>
 
-    <v-card-actions>
-      <v-list-item class="grow">
-        <v-list-item-avatar color="grey darken-3">
-          <v-img
-            class="elevation-6"
-            :src="userImg"
-          ></v-img>
-        </v-list-item-avatar>
+      <v-card-actions>
+        <v-list-item class="grow">
+          <v-list-item-content v-if="typeNewIndirect">
+            <v-list-item-title>Public Indirect</v-list-item-title>
+          </v-list-item-content>
+          <v-list-item-content v-else>
+              <v-autocomplete
+                v-model="indirectTo"
+                :items="mutualList"
+                label="Private Indirect"
+                multiple
+                chips
+                hint="Select mutuals"
+                persistent-hint
+              >
+                <template v-slot:selection="data">
+                  <v-chip
+                    v-bind="data.attrs"
+                    :input-value="data.selected"
+                    close
+                    @click="data.select"
+                    @click:close="remove(data.item)"
+                  >
+                    <v-avatar left>
+                      <v-img :src="data.item.avatar"></v-img>
+                    </v-avatar>
+                    {{ data.item.text }}
+                  </v-chip>
+                </template>
 
-        <v-list-item-content v-if="typeNewIndirect">
-          <v-list-item-title>Public</v-list-item-title>
-        </v-list-item-content>
-        <v-list-item-content v-else>
-          <v-list-item-title>
-            <v-select
-          v-model="e7"
-          :items="mutualList"
-          label="Select"
-          multiple
-          chips
-          hint="What are the target regions"
-          persistent-hint
-        ></v-select>
-          </v-list-item-title>
-        </v-list-item-content>
-        <v-list-item-content>
-          <v-switch v-model="typeNewIndirect" label="Public indirect"></v-switch>
-        </v-list-item-content>
-
-        <v-row
-          align="center"
-          justify="end"
-        >
-          <v-btn class=" mt-6 mb-4" block color="secondary" @click="test">Send</v-btn>
-        </v-row>
-      </v-list-item>
-    </v-card-actions>
-  </v-card>
-</div>
-   
-
+                <template v-slot:item="data">
+                  <template v-if="typeof data.item !== 'object'">
+                    <v-list-item-content v-text="data.item"></v-list-item-content>
+                  </template>
+                  <template v-else>
+                    <v-list-item-avatar>
+                      <img :src="data.item.avatar" />
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title v-html="data.item.text"></v-list-item-title>
+                    </v-list-item-content>
+                  </template>
+                </template>
+              </v-autocomplete>
+          </v-list-item-content>
+          <v-list-item-content>
+            <v-checkbox v-model="typeNewIndirect"></v-checkbox>
+          </v-list-item-content>
+          <v-list-item-content>
+            <v-btn small block color="secondary" @click="sendIndirect">Send</v-btn>
+          </v-list-item-content>
+        </v-list-item>
+      </v-card-actions>
+    </v-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -127,14 +113,35 @@ export default class Indirect extends Vue {
   @Prop() private type!: boolean;
   @Prop() private mutualList!: object;
 
-  private typeNewIndirect:boolean = true;
 
-  test() {
-    console.log(this.mutualList)
+  private textNewIndirect: string = "";
+  private typeNewIndirect: boolean = true; //true -> public || false -> private
+  private indirectTo: Array<number> = [];
+
+  sendIndirect() {
+    if (this.verifyIndirect()) {
+      const indirect = {
+        text: this.textNewIndirect,
+        public: this.typeNewIndirect,
+        uids: this.indirectTo && this.indirectTo.length ? this.indirectTo : null
+      };
+      this.$emit("onSendIndirect", indirect);
+    } else {
+      console.log("invalid indirect")
+    }
   }
+
+  verifyIndirect() {
+    if (this.textNewIndirect) {
+      if (!this.typeNewIndirect) {
+        if (this.indirectTo && this.indirectTo.length)
+          return true;
+      } else
+        return true;
+    }
+  }
+
 }
-
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
