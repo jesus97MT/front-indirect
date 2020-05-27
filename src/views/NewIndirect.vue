@@ -47,8 +47,10 @@ export default {
 
   methods: {
     ...mapActions("user", ["findUserMutuals"]),
+    ...mapActions("indirect", ["addIndirect"]),
+    
     onSendIndirect(indirect) {
-      console.log(indirect)
+      this.addIndirect(indirect)
     }
   },
   data() {

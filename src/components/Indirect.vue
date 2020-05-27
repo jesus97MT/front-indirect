@@ -47,10 +47,10 @@
 
       <v-card-actions>
         <v-list-item class="grow">
-          <v-list-item-content v-if="typeNewIndirect">
-            <v-list-item-title>Public Indirect</v-list-item-title>
+          <v-list-item-content v-if="typeNewIndirect" style="flex-grow:4">
+            <v-list-item-title >Public Indirect</v-list-item-title>
           </v-list-item-content>
-          <v-list-item-content v-else>
+          <v-list-item-content v-else style="flex-grow:4">
               <v-autocomplete
                 v-model="indirectTo"
                 :items="mutualList"
@@ -90,14 +90,17 @@
                 </template>
               </v-autocomplete>
           </v-list-item-content>
-          <v-list-item-content>
-            <v-checkbox v-model="typeNewIndirect"></v-checkbox>
+          <v-list-item-content class="flex-grow-1 flex-shrink-0">
+            <div>
+              <v-checkbox class="float-right" v-model="typeNewIndirect"></v-checkbox>
+              </div>
           </v-list-item-content>
-          <v-list-item-content>
-            <v-btn small block color="secondary" @click="sendIndirect">Send</v-btn>
-          </v-list-item-content>
+          
         </v-list-item>
       </v-card-actions>
+      <v-list-item-content class="mx-4 my-2">
+            <v-btn small block color="secondary" @click="sendIndirect">Send</v-btn>
+          </v-list-item-content>
     </v-card>
   </div>
 </template>
