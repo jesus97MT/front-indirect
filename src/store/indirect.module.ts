@@ -5,11 +5,13 @@ import router from '../router/index';
 
 const state = {
     indirect: {
-
+        dateUpdated: "",
+        text: "",
+        ownerName: "",
+        ownerID: "",
+        ownerProfilePic: "",
     },
-    newIndirect: {
-
-    }
+    indirects: []
 
 };
 
@@ -29,15 +31,35 @@ const actions = {
             );
     },
 
+    loadIndirects({ commit }: any) {
+        indirectService.loadIndirect()
+        .then(
+            (data: any) => {
+                commit('setIndirects', data);
+                //alerta (?)
+                console.log("loadIndirects")
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
+
 };
 
 
 const mutations = {
-
+    setIndirects(state: any, indirects: any) {
+        console.log(indirects)
+        state.indirects = [];
+        state.indirects = indirects.reverse();
+    }
 };
 
 const getters = {
-
+    getIndirects(state: any) {
+        return JSON.parse(JSON.stringify(state.indirects));
+    }
 
 }
 

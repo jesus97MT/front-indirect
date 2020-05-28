@@ -119,12 +119,19 @@ function getUserMutualList(userId: string) {
 }
 
 function addIndirect(indirect: object) {
-    console.log("dadadsdasdas")
     const token = getToken();
     const op = "addIndirect";
     const data = {token, data: indirect};
     socket.emit(op, data);
 }
+
+function getIndirects() {
+    const token = getToken();
+    const op = "getIndirects";
+    const data = {token};
+    socket.emit(op, data);
+}
+
 
 export const socketOperations = {
     login,
@@ -138,5 +145,6 @@ export const socketOperations = {
     getUserByToken,
     getUserFollowList,
     getUserMutualList,
-    addIndirect
+    addIndirect,
+    getIndirects
 } 

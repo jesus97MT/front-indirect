@@ -25,15 +25,21 @@
 // @ is an alias to /src
 import Indirect from "@/components/Indirect.vue";
 import { socketOperations } from "../socket/socket";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "MainFeed",
   components: {
     Indirect
   },
+  computed: {
+...mapGetters("indirect", {
+      indirects: "getIndirects",
+    })
+  },
   methods: {
     ...mapActions("account", ["logout"]),
+    ...mapActions("indirect", ["loadIndirects"]),
     clickButton: function(data) {
       this.socket.emit("getUserName", null);
     },
@@ -49,7 +55,7 @@ export default {
       socket: socketOperations.getSocket(),
       userConected: "eeee",
 
-      indirects: [
+      indirects2: [
         {
           text:
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -99,6 +105,8 @@ export default {
       //console.log(data);
       //   this.userConected = data
     });
+
+    this.loadIndirects();
   }
 
  
