@@ -10,19 +10,21 @@
     >
       <v-card-title>
         <v-icon large left>mdi-twitter</v-icon>
-        <span class="title font-weight-light">{{date}}</span>
+        <span class="title font-weight-light">@{{indirect.userData.userId}} </span>
+
+        <span class="title font-weight-light"> {{new Date(indirect.dateCreation).toLocaleString()}}</span>
       </v-card-title>
 
-      <v-card-text class="headline font-weight-bold">{{text}}</v-card-text>
+      <v-card-text class="headline font-weight-bold">{{indirect.text}}</v-card-text>
 
       <v-card-actions>
         <v-list-item class="grow">
           <v-list-item-avatar color="grey darken-3">
-            <v-img class="elevation-6" :src="userImg"></v-img>
+            <v-img class="elevation-6" ></v-img>
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>Evan You</v-list-item-title>
+            <v-list-item-title>{{indirect.userData.name + " " + indirect.userData.surname}}</v-list-item-title>
           </v-list-item-content>
 
           <v-row align="center" justify="end">
@@ -38,7 +40,7 @@
     <v-card class="mx-auto" color="#26c6da" dark tile v-else>
       <v-card-title>
         <v-icon large left>mdi-twitter</v-icon>
-        <span class="title font-weight-light">{{date}}</span>
+        <span class="title font-weight-light">{{indirect.dateCreation}}</span>
       </v-card-title>
 
       <v-card-text class="headline font-weight-bold">
@@ -110,9 +112,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class Indirect extends Vue {
-  @Prop() private text!: string;
-  @Prop() private date!: string;
-  @Prop() private userImg!: string;
+  @Prop() private indirect!: object;
   @Prop() private type!: boolean;
   @Prop() private mutualList!: object;
 

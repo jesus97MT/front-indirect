@@ -2,9 +2,7 @@
   <div>
     <div class="home" v-for="indirect in indirects" v-bind:key="indirect.id">
       <Indirect
-        :text="indirect.text"
-        :date="indirect.date"
-        :userImg="indirect.userImg"
+        :indirect="indirect"
         :type="true"
       />
     </div>
