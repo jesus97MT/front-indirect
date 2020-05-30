@@ -10,9 +10,12 @@
       <v-row align="end" class="fill-height mx-0">
         <v-col align-self="start" class="pa-0" cols="12">
           <v-sheet elevation="20" class="mx-auto" height="164" width="164" light>
+            <label for="myInputFile">
             <v-avatar class="profile" size="164" tile>
-              <v-img :src="user && user.profilePicUrl || defaultPic"></v-img>
+              <v-img id="avatar" :src="editing && newImageURL ||user && user.avatar || defaultPic"></v-img>
             </v-avatar>
+            <input v-if="editing" type="file"  @change="previewFiles" name="myInputFile" id="myInputFile" style="display:none;" />
+            </label>
           </v-sheet>
         </v-col>
         <v-col class>
@@ -151,6 +154,8 @@ export default class ProfileForm extends Vue {
   private editing = false;
   private defaultPic =
     "https://iupac.org/wp-content/uploads/2018/05/default-avatar.png";
+  private newImage:any;
+  private newImageURL:string = "";
 
   isFollowing() {
     if (!this.ownProfile && this.userFollowing) {
@@ -161,11 +166,13 @@ export default class ProfileForm extends Vue {
 
   onSaveData() {
     this.editing = false;
-    this.$emit("onSaveData");
+    this.$emit("onSaveData", this.newImage);
   }
   onCancelEdit() {
     this.editing = false;
     this.$emit("onCancelEdit");
+    this.newImageURL = "";
+    this.newImage = null;
   }
 
   onFollowButton() {
@@ -187,6 +194,12 @@ export default class ProfileForm extends Vue {
 
   onFollowingList() {
     this.$emit("onFollowingList");
+  }
+
+  previewFiles(event: any) {
+    this.newImage = event.target.files[0];
+    var output = document.getElementById('avatar');
+    this.newImageURL = URL.createObjectURL(this.newImage);
   }
 }
 </script>

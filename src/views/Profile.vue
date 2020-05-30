@@ -4,7 +4,7 @@
       :user.sync="ownProfile? user : userFind"
       :userFollowing.sync="!ownProfile && user && user.following || null"
       :ownProfile.sync="ownProfile"
-      @onSaveData="onSaveData"
+      @onSaveData="onSaveData($event)"
       @onCancelEdit="onCancelEdit"
       @onFollow="onFollow"
       @onUnFollow="onUnFollow"
@@ -55,10 +55,14 @@ export default {
       "resetUserData",
       "findPublicProfile",
       "followUser",
-      "unFollowUser"
+      "unFollowUser",
+      "saveNewProfilePic"
     ]),
-    onSaveData() {
+    onSaveData(newImage) {
       this.saveUserData(this.user);
+      if(newImage) {
+        this.saveNewProfilePic(newImage)
+      }
     },
     onCancelEdit() {
       this.resetUserData();

@@ -18,7 +18,8 @@ export const userService = {
     getUserData,
     stopListenSocket,
     getUserFollowList,
-    getUserMutualList
+    getUserMutualList,
+    setNewProfilePic
 };
 
 function login(email: string, password: string) {
@@ -75,8 +76,15 @@ function getUserData(token: string) {
         });
 
         socket.on("getUserByToken", (user: any) => {
+            console.log(user);
             subject.next(user);
-        })
+        });
+
+        socket.on("getUserAvatarByToken", (image: any) => {
+            console.log(image);
+            subject.next(image);
+        });
+        
     })
 
 }
@@ -176,6 +184,23 @@ function getUserMutualList(userId: string) {
         });
     });
 }
+
+function setNewProfilePic(image: File) {
+    socketOperations.setNewProfilePic(image);
+    var socket = socketOperations.getSocket();
+
+    return new Promise((resolve, reject) => {
+        socket.on('error', (error: any) => {
+            socket.close();
+            reject(null);
+        });
+        socket.on("getMutualList", (mutualList: any) => {
+            resolve(mutualList);
+        });
+    });
+}
+
+
 
 function stopListenSocket(event: string) {
     var socket = socketOperations.getSocket();

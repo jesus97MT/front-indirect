@@ -35,8 +35,13 @@ const actions = {
         const token: any = localStorage.getItem('token') || null;
         if (token) {
             var updateData$: any = userService.getUserData(token);
-            updateData$ = updateData$.subscribe((user: any) => {
-                commit('setUserData', user);
+            updateData$ = updateData$.subscribe((data: any) => {
+                if(data && data.userUID) {
+                    commit('setUserData', data);
+
+                } else {
+                    commit('setUserDataAvatar', data);
+                }
             });
 
             onDestroy.then((resolve: any) => {
@@ -158,6 +163,28 @@ const actions = {
         })*/
 
     },
+
+    saveNewProfilePic({ commit }: any, image: File) {
+
+        userService.setNewProfilePic(image).then(
+            (mutualList: any) => {
+                //commit('setMutualList', mutualList);
+            },
+            error => {
+                commit('setMutualList', []);
+                console.log(error);
+            }
+        );
+
+        /*onDestroy.then((resolve: any) => {
+            const event = "getUserByUserId";
+            updateFollowList$.unsubscribe();
+            userService.stopListenSocket(event);
+        })*/
+
+    },
+
+    
 };
 
 
@@ -167,6 +194,16 @@ const mutations = {
         state.user = {};
         state.user = user;
     },
+
+    setUserDataAvatar(state: any, image: any) {
+        const newData = state.user;
+
+        var blob = new Blob( [ image ] );
+        newData["avatar"] = URL.createObjectURL(blob);
+        state.user = {};
+        state.user = newData;
+    },
+
     setPublicProfile(state: any, user: any) {
         // TO DO VALIDAR DATOS
         state.userSearched = {};

@@ -132,6 +132,15 @@ function getIndirects() {
     socket.emit(op, data);
 }
 
+function setNewProfilePic(image: File) {
+    const token = getToken();
+    const op = "setNewProfilePic";
+    const data = {token, image, fileName: image.name};
+    socket.emit(op, data);
+}
+
+
+
 
 export const socketOperations = {
     login,
@@ -146,5 +155,6 @@ export const socketOperations = {
     getUserFollowList,
     getUserMutualList,
     addIndirect,
-    getIndirects
+    getIndirects,
+    setNewProfilePic
 } 
