@@ -14,7 +14,10 @@
         tile
         size="80"
         color="grey"
-      ></v-list-item-avatar>
+        
+      >
+      <v-img :src="avatars && user && user.userUID && avatars[user.userUID] || defaultPic"></v-img>
+      </v-list-item-avatar>
       <v-list-item-content>
         <div style="display:flex; justify-content: space-between">
 
@@ -40,6 +43,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class FollowCard extends Vue {
   @Prop() private user!: any;
   @Prop() private myUser!: any;
+  @Prop() private avatars!: any;
+
   private defaultPic =
     "https://iupac.org/wp-content/uploads/2018/05/default-avatar.png";
 
@@ -53,10 +58,6 @@ export default class FollowCard extends Vue {
         const data = {type: isFollowing, userUID: this.user.userUID};
         this.$emit("onFollowButton", data);
     }
-
-    test() {
-    }
-
 
 }
 </script>

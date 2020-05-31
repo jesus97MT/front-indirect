@@ -5,6 +5,7 @@
       <FollowCard
         :user.sync="user"
         :myUser.sync="myUser"
+        :avatars="avatars"
         @onFollowButton="onFollowButton"
       ></FollowCard>
     </div>
@@ -23,7 +24,8 @@ export default {
       account: state => state.account
     }),
     ...mapGetters("user", {
-      userList: "getFollowList",
+      userList: "getFollowListData",
+      avatars: "getFollowListAvatars",
       myUser: "getUserData"
     })
   },

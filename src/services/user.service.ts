@@ -120,7 +120,11 @@ function getUserDataByUserId(userId: string, commit: any) {
 
         socket.on("getUserByUserId", (user: any) => {
             subject.next(user);
-        })
+        });
+
+        socket.on("getUserAvatarByUserId", (image: any) => {
+            subject.next(image);
+        });
     })
 
 }
@@ -159,7 +163,7 @@ function getUserFollowList(userId: string, typeList: string) {
     socketOperations.getUserFollowList(userId, typeList);
     var socket = socketOperations.getSocket();
 
-    return new Promise((resolve, reject) => {
+    const p1 = new Promise((resolve, reject) => {
         socket.on('error', (error: any) => {
             socket.close();
             reject(null);
@@ -167,7 +171,22 @@ function getUserFollowList(userId: string, typeList: string) {
         socket.on("getFollowList", (followList: any) => {
             resolve(followList);
         });
+
     });
+
+    const p2 = new Promise((resolve, reject) => {
+        socket.on('error', (error: any) => {
+            socket.close();
+            reject(null);
+        });
+        socket.on("getFollowListImages", (images: any) => {
+            console.log(images);
+            resolve(images);
+        });
+    });
+
+    const promises = [p1,p2];
+    return Promise.all(promises);
 }
 
 function getUserMutualList(userId: string) {

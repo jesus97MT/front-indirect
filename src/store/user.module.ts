@@ -26,7 +26,10 @@ const state = {
         following: 0,
         profilePicUrl: ""
     },
-    followList: [],
+    followList: {
+        data: [],
+        avatars: {}
+    },
     mutualList: []
 };
 
@@ -36,7 +39,7 @@ const actions = {
         if (token) {
             var updateData$: any = userService.getUserData(token);
             updateData$ = updateData$.subscribe((data: any) => {
-                if(data && data.userUID) {
+                if (data && data.userUID) {
                     commit('setUserData', data);
 
                 } else {
@@ -81,12 +84,19 @@ const actions = {
         const onDestroy: Promise<any> = data.promise;
         var updateData$: any = userService.getUserDataByUserId(userId, commit);
 
-        updateData$ = updateData$.subscribe((user: any) => {
-            if (user) {
-                commit('setPublicProfile', user);
-            } else {
+        updateData$ = updateData$.subscribe((data: any) => {
+
+            if (data === "UserNotFound") {
                 router.push('/profile-not-found');
+            } else {
+                if (data && data.userUID) {
+                    commit('setPublicProfile', data);
+                } else {
+                    if (data)
+                        commit('setPublicUserAvatar', data);
+                }
             }
+
         });
 
         onDestroy.then((resolve: any) => {
@@ -126,11 +136,25 @@ const actions = {
         const typeList = data.typeList;
 
         userService.getUserFollowList(userId, typeList).then(
-            (followList: any) => {
-                commit('setFollowList', followList);
+            (data: any) => {
+                const followList = data[0];
+                const avatars = data[1];
+                
+                if (followList)
+                    commit('setFollowListData', followList);
+                else
+                    commit('setFollowListData', []);
+
+                if (avatars)
+                    commit('setFollowListAvatar', avatars);
+                else
+                    commit('setFollowListAvatar', []);
+
+
             },
             error => {
-                commit('setFollowList', []);
+                commit('setFollowListData', []);
+                commit('setFollowListAvatar', {});
                 console.log(error);
             }
         );
@@ -184,7 +208,7 @@ const actions = {
 
     },
 
-    
+
 };
 
 
@@ -198,7 +222,7 @@ const mutations = {
     setUserDataAvatar(state: any, image: any) {
         const newData = state.user;
 
-        var blob = new Blob( [ image ] );
+        var blob = new Blob([image]);
         newData["avatar"] = URL.createObjectURL(blob);
         state.user = {};
         state.user = newData;
@@ -209,6 +233,15 @@ const mutations = {
         state.userSearched = {};
         state.userSearched = user;
 
+    },
+
+    setPublicUserAvatar(state: any, image: any) {
+        const newData = state.userSearched;
+
+        var blob = new Blob([image]);
+        newData["avatar"] = URL.createObjectURL(blob);
+        state.userSearched = {};
+        state.userSearched = newData;
     },
 
     setFollow(state: any, users: any) {
@@ -223,7 +256,7 @@ const mutations = {
         } else {
             state.user.following = [toFollowUID];
         }
-            
+
     },
 
     setUnFollow(state: any, users: any) {
@@ -237,7 +270,7 @@ const mutations = {
                 state.userSearched.followers.splice(index, 1);
             }
         }*/
-        
+
         if (state.user.following && state.user.following.length) {
             const index2 = state.user.following.indexOf(toUnFollowUID);
             if (index2 > -1) {
@@ -246,10 +279,23 @@ const mutations = {
         }
     },
 
-    setFollowList(state: any, list: any) {
+    setFollowListData(state: any, list: any) {
         // TO DO VALIDAR DATOS
-        state.followList = []
-        state.followList = list;
+        state.followList.data = [];
+        state.followList.data = list;
+    },
+
+    setFollowListAvatar(state: any, images: any) {
+        console.log(images)
+        // TO DO VALIDAR DATOS
+        const imagesURL: any = {};
+        Object.keys(images).forEach((uid: any) => {
+            var blob = new Blob([images[uid]]);
+            imagesURL[uid] = URL.createObjectURL(blob);
+        });
+
+        state.followList.avatars = {};
+        state.followList.avatars = imagesURL;
     },
 
     setMutualList(state: any, list: any) {
@@ -270,6 +316,14 @@ const getters = {
 
     getFollowList(state: any, user: any) {
         return JSON.parse(JSON.stringify(state.followList));
+    },
+
+    getFollowListData(state: any, user: any) {
+        return JSON.parse(JSON.stringify(state.followList.data));
+    },
+
+    getFollowListAvatars(state: any, user: any) {
+        return JSON.parse(JSON.stringify(state.followList.avatars));
     },
 
     getMutualList(state: any, user: any) {
