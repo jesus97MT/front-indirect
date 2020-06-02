@@ -11,7 +11,10 @@ const state = {
         ownerID: "",
         ownerProfilePic: "",
     },
-    indirects: []
+    indirects: {
+        data: [],
+        avatars: {}
+    }
 
 };
 
@@ -35,9 +38,18 @@ const actions = {
         indirectService.loadIndirect()
         .then(
             (data: any) => {
-                commit('setIndirects', data);
-                //alerta (?)
-                console.log("loadIndirects")
+                const indirects = data[0];
+                const avatars = data[1];
+
+                if (indirects)
+                    commit('setIndirectsData', indirects);
+                else
+                    commit('setIndirectsData', []);
+
+                if (avatars)
+                    commit('setIndirectsAvatars', avatars);
+                else
+                    commit('setIndirectsAvatars', []);
             },
             error => {
                 console.log(error);
@@ -49,16 +61,37 @@ const actions = {
 
 
 const mutations = {
-    setIndirects(state: any, indirects: any) {
-        console.log(indirects)
-        state.indirects = [];
-        state.indirects = indirects.reverse();
+    setIndirectsData(state: any, indirects: any) {
+        state.indirects.data = [];
+        state.indirects.data = indirects.reverse();
+    },
+
+    setIndirectsAvatars(state: any, images: any) {
+        const imagesURL: any = {};
+        Object.keys(images).forEach((uid: any) => {
+            var blob = new Blob([images[uid]]);
+            imagesURL[uid] = URL.createObjectURL(blob);
+        });
+        
+        state.indirects.avatars = [];
+        state.indirects.avatars = imagesURL;
     }
+
+    
 };
 
 const getters = {
     getIndirects(state: any) {
         return JSON.parse(JSON.stringify(state.indirects));
+    },
+
+    getIndirectsData(state: any) {
+        return JSON.parse(JSON.stringify(state.indirects.data));
+    },
+
+    getIndirectsAvatars(state: any) {
+        console.log(state.indirects.avatars)
+        return JSON.parse(JSON.stringify(state.indirects.avatars));
     }
 
 }

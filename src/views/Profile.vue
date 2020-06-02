@@ -1,9 +1,10 @@
 <template>
   <div>
     <ProfileForm
-      :user.sync="ownProfile? user : userFind"
-      :userFollowing.sync="!ownProfile && user && user.following || null"
+      :user.sync="ownProfile? user.data : userFind.data"
+      :userFollowing.sync="!ownProfile && user && user.data && user.data.following || null"
       :ownProfile.sync="ownProfile"
+      :avatar.sync="user.avatar"
       @onSaveData="onSaveData($event)"
       @onCancelEdit="onCancelEdit"
       @onFollow="onFollow"
@@ -59,7 +60,7 @@ export default {
       "saveNewProfilePic"
     ]),
     onSaveData(newImage) {
-      this.saveUserData(this.user);
+      this.saveUserData(this.user.data);
       if(newImage) {
         this.saveNewProfilePic(newImage)
       }
@@ -68,12 +69,12 @@ export default {
       this.resetUserData();
     },
     onFollow() {
-      if (this.userFind && this.userFind.userUID)
-        this.followUser(this.userFind.userUID);
+      if (this.userFind.data && this.userFind.data.userUID)
+        this.followUser(this.userFind.data.userUID);
     },
     onUnFollow() {
-      if (this.userFind && this.userFind.userUID)
-        this.unFollowUser(this.userFind.userUID);
+      if (this.userFind && this.userFind.data.userUID)
+        this.unFollowUser(this.userFind.data.userUID);
     },
     onFollowersList() {
       const userId = this.$route.params.id;

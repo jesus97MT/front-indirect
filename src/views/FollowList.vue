@@ -4,7 +4,7 @@
     <div v-for="user in userList" v-bind:key="user.userUID">
       <FollowCard
         :user.sync="user"
-        :myUser.sync="myUser"
+        :myUser.sync="myUser.data"
         :avatars="avatars"
         @onFollowButton="onFollowButton"
       ></FollowCard>

@@ -20,7 +20,7 @@
       <v-card-actions>
         <v-list-item class="grow">
           <v-list-item-avatar color="grey darken-3">
-            <v-img class="elevation-6" ></v-img>
+            <v-img :src="avatars && indirect.userData.userUID && avatars[indirect.userData.userUID]" class="elevation-6" ></v-img>
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -40,7 +40,6 @@
     <v-card class="mx-auto" color="#26c6da" dark tile v-else>
       <v-card-title>
         <v-icon large left>mdi-twitter</v-icon>
-        <span class="title font-weight-light">{{indirect.dateCreation}}</span>
       </v-card-title>
 
       <v-card-text class="headline font-weight-bold">
@@ -71,7 +70,7 @@
                     @click:close="remove(data.item)"
                   >
                     <v-avatar left>
-                      <v-img :src="data.item.avatar"></v-img>
+                      <v-img></v-img>
                     </v-avatar>
                     {{ data.item.text }}
                   </v-chip>
@@ -115,6 +114,8 @@ export default class Indirect extends Vue {
   @Prop() private indirect!: object;
   @Prop() private type!: boolean;
   @Prop() private mutualList!: object;
+  @Prop() private avatars!: object;
+
 
 
   private textNewIndirect: string = "";

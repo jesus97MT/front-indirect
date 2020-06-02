@@ -3,6 +3,7 @@
     <div class="home" v-for="indirect in indirects" v-bind:key="indirect.id">
       <Indirect
         :indirect="indirect"
+        :avatars="avatars"
         :type="true"
       />
     </div>
@@ -31,7 +32,8 @@ export default {
   },
   computed: {
 ...mapGetters("indirect", {
-      indirects: "getIndirects",
+      indirects: "getIndirectsData",
+      avatars: "getIndirectsAvatars",
     })
   },
   methods: {

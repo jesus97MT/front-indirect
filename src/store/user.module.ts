@@ -5,26 +5,34 @@ import router from '../router/index';
 
 const state = {
     user: {
-        userUID: 0,
-        userId: "",
-        name: "",
-        surname: "",
-        email: "",
-        date: "",
-        followers: 0,
-        following: 0,
-        profilePicUrl: ""
+        data: {
+            userUID: 0,
+            userId: "",
+            name: "",
+            surname: "",
+            email: "",
+            date: "",
+            followers: 0,
+            following: 0,
+            profilePicUrl: ""
+        },
+        avatar: null
+        
     },
     userSearched: {
-        userUID: 0,
-        userId: "",
-        name: "",
-        surname: "",
-        email: "",
-        date: "",
-        followers: 0,
-        following: 0,
-        profilePicUrl: ""
+        data: {
+            userUID: 0,
+            userId: "",
+            name: "",
+            surname: "",
+            email: "",
+            date: "",
+            followers: 0,
+            following: 0,
+            profilePicUrl: ""
+        },
+        avatar: null
+        
     },
     followList: {
         data: [],
@@ -215,33 +223,31 @@ const actions = {
 const mutations = {
     setUserData(state: any, user: any) {
         // TO DO VALIDAR DATOS
-        state.user = {};
-        state.user = user;
+        state.user.data = {};
+        state.user.data = user;
     },
 
     setUserDataAvatar(state: any, image: any) {
-        const newData = state.user;
+        const blob = new Blob([image]);
+        const imageUrl = URL.createObjectURL(blob);
 
-        var blob = new Blob([image]);
-        newData["avatar"] = URL.createObjectURL(blob);
-        state.user = {};
-        state.user = newData;
+        state.user.avatar = null;
+        state.user.avatar = imageUrl;
     },
 
     setPublicProfile(state: any, user: any) {
         // TO DO VALIDAR DATOS
-        state.userSearched = {};
-        state.userSearched = user;
+        state.userSearched.data = {};
+        state.userSearched.data = user;
 
     },
 
     setPublicUserAvatar(state: any, image: any) {
-        const newData = state.userSearched;
+        const blob = new Blob([image]);
+        const imageUrl = URL.createObjectURL(blob);
 
-        var blob = new Blob([image]);
-        newData["avatar"] = URL.createObjectURL(blob);
-        state.userSearched = {};
-        state.userSearched = newData;
+        state.userSearched.avatar = null;
+        state.userSearched.avatar = imageUrl;
     },
 
     setFollow(state: any, users: any) {
@@ -319,6 +325,7 @@ const getters = {
     },
 
     getFollowListData(state: any, user: any) {
+        console.log(state.followList.data)
         return JSON.parse(JSON.stringify(state.followList.data));
     },
 

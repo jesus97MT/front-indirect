@@ -12,7 +12,7 @@
           <v-sheet elevation="20" class="mx-auto" height="164" width="164" light>
             <label for="myInputFile">
             <v-avatar class="profile" size="164" tile>
-              <v-img id="avatar" :src="editing && newImageURL ||user && user.avatar || defaultPic"></v-img>
+              <v-img id="avatar" :src="editing && newImageURL || avatar || defaultPic"></v-img>
             </v-avatar>
             <input v-if="editing" type="file"  @change="previewFiles" name="myInputFile" id="myInputFile" style="display:none;" />
             </label>
@@ -151,6 +151,7 @@ export default class ProfileForm extends Vue {
   @Prop() private ownProfile!: Boolean;
   @Prop() private user!: any;
   @Prop() private userFollowing!: Array<number>;
+  @Prop() private avatar: any;
   private editing = false;
   private defaultPic =
     "https://iupac.org/wp-content/uploads/2018/05/default-avatar.png";

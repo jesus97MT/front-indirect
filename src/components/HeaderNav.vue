@@ -18,12 +18,12 @@
           :disabled="!(account.status && account.status.loggedIn)"
         >
           <v-list-item-avatar>
-            <img :src="user.profilePicUrl ? user.profilePicUrl : defaultPic" />
+            <img :src="user.avatar ? user.avatar : defaultPic" />
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{account.status && account.status.loggedIn ? user.userId : "User not logged"}}</v-list-item-title>
-            <v-list-item-subtitle>{{account.status && account.status.loggedIn ? user.email : "Please log-in"}}</v-list-item-subtitle>
+            <v-list-item-title>{{account.status && account.status.loggedIn ? user.data.userId : "User not logged"}}</v-list-item-title>
+            <v-list-item-subtitle>{{account.status && account.status.loggedIn ? user.data.email : "Please log-in"}}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>

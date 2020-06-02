@@ -27,15 +27,33 @@ function addIndirect(newIndirect: object) {
 
 function loadIndirect() {
     socketOperations.getIndirects();
-    var socket = socketOperations.getSocket()
+    var socket = socketOperations.getSocket();
 
-    return new Promise((resolve, reject) => {
+    const p1 = new Promise((resolve, reject) => {
         socket.on('error', (error: any) => {
             socket.close();
             reject(null);
-        })
+        });
+
         socket.on("onGetIndirects", (response: any) => {
             resolve(response);
-        })
+        });
+        
     });
+
+    const p2 = new Promise((resolve, reject) => {
+        socket.on('error', (error: any) => {
+            socket.close();
+            reject(null);
+        });
+
+        socket.on("onGetIndirectsAvatars", (response: any) => {
+            resolve(response);
+        });
+        
+    });
+
+    const promises = [p1,p2];
+    return Promise.all(promises);
+    
 }
