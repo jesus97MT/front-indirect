@@ -4,30 +4,32 @@
       <div style="width:500px">
         <v-img src="../../public/logo/logo.png" aspect-ratio="1.5"></v-img>
         <div class="mx-4">
-        <v-form class="mt-4">
-          <v-text-field
-            label="Login"
-            name="login"
-            prepend-icon="person"
-            type="text"
-            required
-            v-model="loginData.email"
-            @keyup.enter="onLogin"
-          />
+          <v-form class="mt-4">
+            <v-text-field
+              :rules="[() => !!loginData.email || 'This field is required']"
+              label="Email"
+              name="email"
+              prepend-icon="person"
+              type="text"
+              required
+              v-model="loginData.email"
+              @keyup.enter="onLogin"
+            />
 
-          <v-text-field
-            id="password"
-            label="Password"
-            name="password"
-            prepend-icon="lock"
-            type="password"
-            required
-            v-model="loginData.password"
-            @keyup.enter="onLogin"
-          />
-        </v-form>
-        <v-btn class="main mt-6 mb-4" block v-on:click="onLogin" color="primary">Login</v-btn>
-        <v-btn block to="/register">¿No tiene cuenta?</v-btn>
+            <v-text-field
+              :rules="[() => !!loginData.password || 'This field is required']"
+              id="password"
+              label="Password"
+              name="password"
+              prepend-icon="lock"
+              type="password"
+              required
+              v-model="loginData.password"
+              @keyup.enter="onLogin"
+            />
+          </v-form>
+          <v-btn class="main mt-6 mb-4" :disabled="!(loginData.email && loginData.password)" block v-on:click="onLogin" color="primary">Login</v-btn>
+          <v-btn block to="/register">Don't have an account?</v-btn>
         </div>
       </div>
       <v-list class="d-none d-sm-block my-5 ml-5" style="max-width:300px">
@@ -58,9 +60,9 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>About the App</v-list-item-title>
-            <v-list-item-subtitle style="white-space:initial!important">
-              Indirect is an application to talk with friends and send indirects messages that the receipt doesnt know that your indirect is for him/her.
-            </v-list-item-subtitle>
+            <v-list-item-subtitle
+              style="white-space:initial!important"
+            >Indirect is an application to talk with friends and send indirects messages that the receipt doesnt know that your indirect is for him/her.</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -87,8 +89,8 @@ export default {
     onLogin() {
       const email = this.loginData.email;
       const password = this.loginData.password;
-      this.login({ email, password });
-      //maps action??
+      if (email && password)
+        this.login({ email, password });
     }
   }
 };
