@@ -1,6 +1,8 @@
 <template>
   <div>
     <ProfileForm
+      class="mx-auto mt-sm-8 mt-0"
+      style="width:100%; max-width:800px"
       :user.sync="ownProfile? user.data : userFind.data"
       :userFollowing.sync="!ownProfile && user && user.data && user.data.following || null"
       :ownProfile.sync="ownProfile"

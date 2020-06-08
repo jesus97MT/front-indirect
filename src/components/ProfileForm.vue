@@ -9,7 +9,7 @@
     >
       <v-row align="end" class="fill-height mx-0">
         <v-col align-self="start" class="pa-0" cols="12">
-          <v-sheet elevation="20" class="mx-auto" height="164" width="164" light>
+          <v-sheet elevation="20" class="mx-auto my-sm-12 my-0" height="164" width="164" light>
             <label for="myInputFile">
             <v-avatar class="profile" size="164" tile>
               <v-img id="avatar" :src="editing && newImageURL || avatar || defaultPic"></v-img>
@@ -24,6 +24,7 @@
               <v-list-item-title class="title" v-if="!editing">{{ user && user.userId }}</v-list-item-title>
               <v-list-item-title class="title" v-else>
                 <v-text-field
+                  style="width:250px"
                   v-if="user"
                   v-model="user.userId"
                   label="Nombre"
@@ -70,7 +71,7 @@
         </v-row>
       </div>
     </div>
-    <div class="my-8 mx-12">
+    <div class="my-8 mx-12 mx-md-0">
       <v-text-field
         v-if="ownProfile && user"
         v-model="user.email"
@@ -126,6 +127,21 @@
       left
       fab
       v-on:click="onCancelEdit()"
+      class="d-sm-none"
+    >
+      <v-icon>cancel</v-icon>
+    </v-btn>
+    <v-btn
+      v-if="ownProfile && editing"
+      color="red"
+      dark
+      absolute
+      bottom
+      left
+      fab
+      v-on:click="onCancelEdit()"
+      class="d-none d-sm-block"
+      style="bottom:-50px"
     >
       <v-icon>cancel</v-icon>
     </v-btn>
