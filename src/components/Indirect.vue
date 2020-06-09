@@ -138,7 +138,7 @@ export default class Indirect extends Vue {
       };
       this.$emit("onSendIndirect", indirect);
     } else {
-      console.log("invalid indirect");
+      //console.log("invalid indirect");
     }
   }
 

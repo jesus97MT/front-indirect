@@ -72,7 +72,7 @@ const actions = {
 
                 },
                 error => {
-                    console.log("error")
+                    //console.log("error")
                     //commit('loginFailure', error);
                     //dispatch('alert/error', error, { root: true });
                 }
@@ -122,7 +122,7 @@ const actions = {
                     commit('setFollow', { toFollowUID: data[1], fromFollowUID: data[0] });
                 },
                 error => {
-                    console.log(error);
+                    //console.log(error);
                 }
             );
     },
@@ -134,7 +134,7 @@ const actions = {
                     commit('setUnFollow', { toUnFollowUID: data[1], fromUnFollowUID: data[0] });
                 },
                 error => {
-                    console.log(error);
+                    //console.log(error);
                 }
             );
     },
@@ -163,7 +163,7 @@ const actions = {
             error => {
                 commit('setFollowListData', []);
                 commit('setFollowListAvatar', {});
-                console.log(error);
+                //console.log(error);
             }
         );
 
@@ -184,7 +184,7 @@ const actions = {
             },
             error => {
                 commit('setMutualList', []);
-                console.log(error);
+                //console.log(error);
             }
         );
 
@@ -204,7 +204,7 @@ const actions = {
             },
             error => {
                 commit('setMutualList', []);
-                console.log(error);
+                //console.log(error);
             }
         );
 

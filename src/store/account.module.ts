@@ -9,19 +9,15 @@ const state = user && !(Object.entries(user).length === 0 && user.constructor ==
 
 const actions = {
     login({ dispatch, commit }:any, { email, password }:any) {
-        console.log(email)
-        console.log(password)
         commit('loginRequest', { email });
     
         userService.login(email, password)
             .then(
                 user => {
-                    console.log(user);
                     commit('loginSuccess', user);
                     router.push('/');
                 },
                 error => {
-                    console.log("error")
                     commit('loginFailure', error);
                     dispatch('alert/error', error, { root: true });
                 }

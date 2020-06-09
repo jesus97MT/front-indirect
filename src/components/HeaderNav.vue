@@ -127,7 +127,7 @@ export default class HeaderNav extends Vue {
       this.search.isActive = !this.search.isActive
     }
 
-    onRightClick(f: string) {
+    onRightClick(f) {
       this[f]();
     }
 
