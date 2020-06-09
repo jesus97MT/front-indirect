@@ -3,8 +3,8 @@
     <ProfileForm
       class="mx-auto mt-sm-8 mt-0"
       style="width:100%; max-width:800px"
-      :user.sync="ownProfile? user.data : userFind.data"
-      :userFollowing.sync="!ownProfile && user && user.data && user.data.following || null"
+      :user="ownProfile? userData.data : userFind.data"
+      :userFollowing.sync="!ownProfile && userData && userData.data && userData.data.following || null"
       :ownProfile.sync="ownProfile"
       :avatar.sync="user.avatar"
       @onSaveData="onSaveData($event)"
@@ -34,6 +34,11 @@ export default {
       userFind: "getPublicProfile"
     })
   },
+  watch: {
+    user(a, a1) {
+      this.userData = JSON.parse(JSON.stringify(this.user));
+    }
+  },
   mounted() {
     const userId = this.$route.params.id;
     const promise = new Promise(function(resolve, reject) {
@@ -62,13 +67,15 @@ export default {
       "saveNewProfilePic"
     ]),
     onSaveData(newImage) {
-      this.saveUserData(this.user.data);
-      if(newImage) {
+      this.saveUserData(this.userData.data);
+      if (newImage) {
         this.saveNewProfilePic(newImage)
       }
     },
     onCancelEdit() {
-      this.resetUserData();
+      this.userData = JSON.parse(JSON.stringify(this.user));
+      console.log(this.user)
+      //this.resetUserData();
     },
     onFollow() {
       if (this.userFind.data && this.userFind.data.userUID)
@@ -96,7 +103,8 @@ export default {
   },
   data() {
     return {
-      ownProfile: true
+      ownProfile: true,
+      userData: {}
     };
   }
 };
