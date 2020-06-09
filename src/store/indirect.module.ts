@@ -26,7 +26,6 @@ const actions = {
                 (data: any) => {
                     //commit('setAddIndirect', { toFollowUID: data[1], fromFollowUID: data[0] });
                     //alerta añadido?
-                    console.log("addedIndirect")
                 },
                 error => {
                     console.log(error);
@@ -90,7 +89,6 @@ const getters = {
     },
 
     getIndirectsAvatars(state: any) {
-        console.log(state.indirects.avatars)
         return JSON.parse(JSON.stringify(state.indirects.avatars));
     }
 

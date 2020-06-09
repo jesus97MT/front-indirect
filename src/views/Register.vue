@@ -18,7 +18,7 @@
               :rules="[() => !!registerData.email || 'This field is required']"
               label="Email"
               name="email"
-              prepend-icon="person"
+              prepend-icon="email"
               type="text"
               required
               v-model="registerData.email"
@@ -106,7 +106,10 @@ export default {
       const userId = this.registerData.userId;
       const email = this.registerData.email;
       const password = this.registerData.password;
-      if (email && password && userId) this.register({ email, password, userId });
+      if (email && password && userId)  {
+        this.register({ email, password, userId });
+        this.$router.push('login');
+      }
     }
   }
 };

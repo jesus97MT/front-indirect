@@ -1,7 +1,7 @@
 <template>
   <div>
     <ProfileForm
-      class="mx-auto mt-sm-8 mt-0"
+      class="ml-sm-8 mt-sm-8 mt-0"
       style="width:100%; max-width:800px"
       :user="ownProfile? userData.data : userFind.data"
       :userFollowing.sync="!ownProfile && userData && userData.data && userData.data.following || null"
@@ -35,7 +35,7 @@ export default {
     })
   },
   watch: {
-    user(a, a1) {
+    user() {
       this.userData = JSON.parse(JSON.stringify(this.user));
     }
   },
@@ -48,6 +48,7 @@ export default {
     if (userId) {
       this.ownProfile = false;
       this.findPublicProfile({ userId, promise });
+      if (this.userData && !this.userData.data) this.getOwnUserdata(promise);
     } else {
       this.getOwnUserdata(promise);
     }
@@ -74,7 +75,6 @@ export default {
     },
     onCancelEdit() {
       this.userData = JSON.parse(JSON.stringify(this.user));
-      console.log(this.user)
       //this.resetUserData();
     },
     onFollow() {

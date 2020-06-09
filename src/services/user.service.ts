@@ -34,7 +34,6 @@ function login(email: string, password: string) {
         socket.on("getToken", (token: any) => {
             localStorage.setItem('user', email);
             localStorage.setItem('token', token);
-            //console.log('CONTECTADOSSS')
             resolve({ email, token })
         })
     });
@@ -59,7 +58,6 @@ function register(email: string, password: string, userId: string) {
         socket.on("getToken", (token: any) => {
             localStorage.setItem('user', email);
             localStorage.setItem('token', token);
-            //console.log('CONTECTADOSSS')
             resolve({ email, token })
         })
     });
@@ -76,12 +74,10 @@ function getUserData(token: string) {
         });
 
         socket.on("getUserByToken", (user: any) => {
-            console.log(user);
             subject.next(user);
         });
 
         socket.on("getUserAvatarByToken", (image: any) => {
-            console.log(image);
             subject.next(image);
         });
         
@@ -180,7 +176,6 @@ function getUserFollowList(userId: string, typeList: string) {
             reject(null);
         });
         socket.on("getFollowListImages", (images: any) => {
-            console.log(images);
             resolve(images);
         });
     });

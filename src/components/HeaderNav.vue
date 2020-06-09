@@ -32,7 +32,7 @@
           :key="item.title"
           :to="item.route"
           link
-          :disabled="!(account.status && account.status.loggedIn)"
+          :disabled="!(account.status && account.status.loggedIn) || item.disabled"
         >
           <v-list-item-icon>
             <v-icon :disabled="!(account.status && account.status.loggedIn)">{{ item.icon }}</v-icon>
@@ -44,9 +44,9 @@
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <v-list-item>
-        <v-list-item-title>Night Mode</v-list-item-title>
-        <v-switch v-model="$vuetify.theme.dark" primary />
+      <v-list-item disabled>
+        <v-list-item-title disabled>Night Mode</v-list-item-title>
+        <v-switch disabled v-model="$vuetify.theme.dark" primary />
       </v-list-item>
       <template v-slot:append v-if="account.status && account.status.loggedIn">
         <div class="pa-2">
@@ -102,9 +102,9 @@ export default class HeaderNav extends Vue {
     }
 
     private items = [
-      { title: "Home", icon: "dashboard", route: "/" },
-      { title: "Chat", icon: "gavel", route: "/messages" },
-      { title: "Account", icon: "account_box", route: "/test" }
+      { title: "Home", icon: "dashboard", route: "/", disabled:false },
+      { title: "Chat (not yet)", icon: "chat", route: "/messages", disabled:true },
+      { title: "Account", icon: "account_box", route: "/profile", disabled:false }
     ];
 
     private search = {
@@ -112,9 +112,7 @@ export default class HeaderNav extends Vue {
       text: ""
     }
 
-    private defaultPic = {
-
-    }
+    private defaultPic = "https://iupac.org/wp-content/uploads/2018/05/default-avatar.png";
 
     clickDisconect() {
       this.$emit("clickDisconect");
@@ -132,9 +130,11 @@ export default class HeaderNav extends Vue {
     onRightClick(f: string) {
       this[f]();
     }
+
     returnBack() {
       this.$router.go(-1);
     }
+    
     onHome() {
       this.$router.push("/");
     }

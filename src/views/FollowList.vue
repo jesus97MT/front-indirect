@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div  class="ml-sm-8 mt-sm-8 mt-0"
+      style="width:100%; max-width:800px">
     
-    <div v-for="user in userList" v-bind:key="user.userUID">
+    <div v-for="user in userList" v-bind:key="user.userUID" class="mt-6 mx-4 mx-sm-0">
       <FollowCard
         :user.sync="user"
         :myUser.sync="myUser.data"

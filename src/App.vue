@@ -5,8 +5,8 @@
 
     <div v-else>
       <HeaderNav
-        :user="user"
-        :account="account"
+        :user.sync="user"
+        :account.sync="account"
         @clickDisconect="clickDisconect"
         @onEnterSearch="onEnterSearch($event)"
       >

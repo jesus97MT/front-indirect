@@ -13,8 +13,12 @@ function login(email: string, password: string) {
     socket = io.connect(url, {
         query: { op: "login", user: JSON.stringify(user) }
     });
-    const operation = "getUserByLogin";
-    socket.on('connect', () => setUserData(operation));
+    const opData = "getUserByLogin";
+    const opAvatar = "getUserAvatarByLogin";
+    socket.on('connect', () => {
+        setUserData(opData);
+        setUserAvatar(opAvatar);
+    });
 }
 
 function createUser(email: string, password: string, userId: string) {
@@ -35,9 +39,11 @@ function reconnect() {
             socket = io.connect(url, {
                 query: { op: "token", token }
             });
-            const op = "getUserByToken";
+            const opData = "getUserByToken";
+            const opAvatar = "getUserAvatarByToken";
             socket.on('connect', () => {
-                setUserData(op);
+                setUserData(opData);
+                setUserAvatar(opAvatar);
                 resolve(true);
             });
             socket.on('error', (error: any) => {
@@ -58,6 +64,16 @@ function setUserData(op: string) {
         const loginStore: any = store;
         if (user) {
             loginStore['_mutations']['user/setUserData'][0](user);
+        }
+
+    });
+}
+
+function setUserAvatar(op: string) {
+    socket.on(op, (image: any) => {
+        const loginStore: any = store;
+        if (image) {
+            loginStore['_mutations']['user/setUserDataAvatar'][0](image);
         }
 
     });

@@ -17,6 +17,17 @@ export default new Vuetify({
             indirect3: "", //indirect public
             indirect4: "",
           },
+          dark: {
+            primary: "#121E3A", //azulito
+            secondary: "#3D67C2", //marron
+            base: "#3D67C2", // blanco amarillo
+            text: "#3D67C2",
+            separator: "#3D67C2",
+            indirect1: "", //indirect mio
+            indirect2: "", // indirect adivinado
+            indirect3: "", //indirect public
+            indirect4: "",
+          }
         },
       },
 });

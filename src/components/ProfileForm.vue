@@ -41,7 +41,7 @@
                   style="width:250px"
                   v-if="user"
                   v-model="user.userId"
-                  label="Nombre"
+                  label="@username"
                   required
                   :readonly="!editing"
                   :disabled="!editing"
@@ -85,17 +85,15 @@
           <v-list-item color="rgba(0, 0, 0, .4)" dark class="pa-0">
             <v-col class="pa-0">
               <v-list-item class="pa-0" color="rgba(0, 0, 0, .4)" dark>
-                <v-list-item-content class="pointer">
+                <v-list-item-content class="pointer" v-on:click="onFollowersList()">
                   <v-list-item-title
                     class="title"
-                    v-on:click="onFollowersList()"
                   >{{ user && user.followers && user.followers.length || 0 }}</v-list-item-title>
                   <v-list-item-subtitle>Followers</v-list-item-subtitle>
                 </v-list-item-content>
-                <v-list-item-content class="pointer">
+                <v-list-item-content class="pointer" v-on:click="onFollowingList()">
                   <v-list-item-title
                     class="title"
-                    v-on:click="onFollowingList()"
                   >{{ user && user.following && user.following.length || 0}}</v-list-item-title>
                   <v-list-item-subtitle>Following</v-list-item-subtitle>
                 </v-list-item-content>
@@ -167,16 +165,27 @@
       <v-icon>cancel</v-icon>
     </v-btn>
 
-    <div class="px-4" style="width:100%">
+    <div class="d-none d-sm-block" style="width:100%">
       <v-btn
         v-if="!ownProfile"
-        style="width:90%"
+        style="width:100%"
+        class="px-6"
+        bottom
+        v-on:click="onFollowButton"
+        :color="isFollowing() ? 'error' : 'primary'"
+      >{{isFollowing() ? "Unfollow" : "Follow"}}</v-btn>
+    </div>
+
+    <div class="px-4 d-sm-none" style="width:100%">
+      <v-btn
+        v-if="!ownProfile"
+        style="width:92%"
         class="px-6"
         fixed
         bottom
         v-on:click="onFollowButton"
         :color="isFollowing() ? 'error' : 'primary'"
-      >{{isFollowing() ? "Dejar de seguir" : "Seguir"}}</v-btn>
+      >{{isFollowing() ? "Unfollow" : "Follow"}}</v-btn>
     </div>
   </div>
 </template>

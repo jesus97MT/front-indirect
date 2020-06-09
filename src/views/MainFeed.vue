@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <div class="home" v-for="indirect in indirects" v-bind:key="indirect.id">
+  <div class="ml-sm-8 mt-sm-8 mt-0"
+      style="width:100%; max-width:800px">
+    <div class="home mt-6 mx-4 mx-sm-0" v-for="indirect in indirects" v-bind:key="indirect.id">
       <Indirect
         :indirect="indirect"
         :avatars="avatars"
@@ -8,7 +9,7 @@
       />
     </div>
         <v-btn
-      dark
+      color="primary"
       fixed
       bottom
       right

@@ -253,14 +253,13 @@ const mutations = {
     setFollow(state: any, users: any) {
         //const fromFollowUID = users.fromFollowUID
         const toFollowUID = users.toFollowUID
-        console.log(toFollowUID)
 
         // if (state.userSearched.followers && state.userSearched.followers.length)
         //     state.userSearched.followers.push(fromFollowUID);
-        if (state.user.following && state.user.following.length) {
-            state.user.following.push(toFollowUID);
+        if (state.user.data.following && state.user.data.following.length) {
+            state.user.data.following.push(toFollowUID);
         } else {
-            state.user.following = [toFollowUID];
+            state.user.data.following = [toFollowUID];
         }
 
     },
@@ -277,10 +276,10 @@ const mutations = {
             }
         }*/
 
-        if (state.user.following && state.user.following.length) {
-            const index2 = state.user.following.indexOf(toUnFollowUID);
+        if (state.user.data.following && state.user.data.following.length) {
+            const index2 = state.user.data.following.indexOf(toUnFollowUID);
             if (index2 > -1) {
-                state.user.following.splice(index2, 1);
+                state.user.data.following.splice(index2, 1);
             }
         }
     },
@@ -292,7 +291,6 @@ const mutations = {
     },
 
     setFollowListAvatar(state: any, images: any) {
-        console.log(images)
         // TO DO VALIDAR DATOS
         const imagesURL: any = {};
         Object.keys(images).forEach((uid: any) => {
@@ -325,7 +323,6 @@ const getters = {
     },
 
     getFollowListData(state: any, user: any) {
-        console.log(state.followList.data)
         return JSON.parse(JSON.stringify(state.followList.data));
     },
 

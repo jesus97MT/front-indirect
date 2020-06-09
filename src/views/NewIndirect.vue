@@ -1,56 +1,52 @@
 <template>
-  <Indirect
-    :type="false"
-    :mutualList="mutualListParsed"
-    @onSendIndirect="onSendIndirect($event)"
-  ></Indirect>
+  <div class="ml-sm-8 mt-sm-8 mt-0" style="width:100%; max-width:800px">
+    <Indirect
+      class="mt-6 mx-4 mx-sm-0"
+      :type="false"
+      :mutualList="mutualListParsed"
+      @onSendIndirect="onSendIndirect($event)"
+    ></Indirect>
+  </div>
 </template>
 <script >
 //import { mapGetters, mapActions, mapState } from "vuex";
 import Indirect from "@/components/Indirect.vue";
 import { mapGetters, mapActions } from "vuex";
 
-
-
-
 export default {
   components: {
-      Indirect
+    Indirect
   },
   computed: {
-  ...mapGetters("user", {
+    ...mapGetters("user", {
       mutualList: "getMutualList"
     })
   },
   watch: {
-    mutualList(c,c1) {
+    mutualList(c, c1) {
       this.mutualList.forEach(user => {
-        const test = {text: "dada", value:31231, avatar:"https://png.pngtree.com/png-clipart/20190924/original/pngtree-user-vector-avatar-png-image_4830521.jpg"}
-        const test2 = {text: "dad33a", value:1111, avatar:"https://png.pngtree.com/png-clipart/20190924/original/pngtree-user-vector-avatar-png-image_4830521.jpg"}
-        const test3 = {text: "da33da", value:22222, avatar:"https://png.pngtree.com/png-clipart/20190924/original/pngtree-user-vector-avatar-png-image_4830521.jpg"}
-
-        this.mutualListParsed.push(test);
-        this.mutualListParsed.push(test2);
-        this.mutualListParsed.push(test3);
-
-
-        const data = { text: `@${user.userId}`, value: user.userUID, avatar: user.profilePicUrl }
+        const data = {
+          text: `@${user.userId}`,
+          value: user.userUID,
+          avatar: user.profilePicUrl
+        };
         this.mutualListParsed.push(data);
       });
     }
   },
   mounted() {
-    const data = { userId: null};
+    const data = { userId: null };
 
-    this.findUserMutuals(data)
+    this.findUserMutuals(data);
   },
 
   methods: {
     ...mapActions("user", ["findUserMutuals"]),
     ...mapActions("indirect", ["addIndirect"]),
-    
+
     onSendIndirect(indirect) {
-      this.addIndirect(indirect)
+      this.addIndirect(indirect);
+      this.$router.push('/');
     }
   },
   data() {
