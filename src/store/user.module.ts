@@ -102,6 +102,9 @@ const actions = {
                 } else {
                     if (data)
                         commit('setPublicUserAvatar', data);
+                    else
+                        commit('setPublicUserAvatar', null);
+
                 }
             }
 
@@ -199,11 +202,11 @@ const actions = {
     saveNewProfilePic({ commit }: any, image: File) {
 
         userService.setNewProfilePic(image).then(
-            (mutualList: any) => {
-                //commit('setMutualList', mutualList);
+            (response: any) => {
+                commit('setNewProfilePic', image);
             },
             error => {
-                commit('setMutualList', []);
+                commit('setNewProfilePic', null);
                 //console.log(error);
             }
         );
@@ -243,11 +246,16 @@ const mutations = {
     },
 
     setPublicUserAvatar(state: any, image: any) {
-        const blob = new Blob([image]);
-        const imageUrl = URL.createObjectURL(blob);
-
-        state.userSearched.avatar = null;
-        state.userSearched.avatar = imageUrl;
+        if (image) {
+            const blob = new Blob([image]);
+            const imageUrl = URL.createObjectURL(blob);
+    
+            state.userSearched.avatar = null;
+            state.userSearched.avatar = imageUrl;
+        } else {
+            state.userSearched.avatar = null;
+        }
+        
     },
 
     setFollow(state: any, users: any) {
@@ -306,7 +314,18 @@ const mutations = {
         // TO DO VALIDAR DATOS
         state.mutualList = []
         state.mutualList = list;
+    },
+
+    setNewProfilePic(state: any, image: any) {
+        console.log(image)
+        const blob = new Blob([image]);
+        const imageUrl = URL.createObjectURL(blob);
+
+        state.user.avatar = null;
+        state.user.avatar = imageUrl;
     }
+
+    
 
 };
 

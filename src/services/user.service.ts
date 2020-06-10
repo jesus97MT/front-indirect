@@ -208,8 +208,8 @@ function setNewProfilePic(image: File) {
             socket.close();
             reject(null);
         });
-        socket.on("getMutualList", (mutualList: any) => {
-            resolve(mutualList);
+        socket.on("setNewProfilePic", (response: any) => {
+            resolve(response);
         });
     });
 }

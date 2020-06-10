@@ -3,10 +3,10 @@
     <ProfileForm
       class="ml-sm-8 mt-sm-8 mt-0"
       style="width:100%; max-width:800px"
-      :user="ownProfile? userData.data : userFind.data"
+      :user="ownProfile ? userData.data : userFind.data"
       :userFollowing.sync="!ownProfile && userData && userData.data && userData.data.following || null"
       :ownProfile.sync="ownProfile"
-      :avatar.sync="user.avatar"
+      :avatar.sync="ownProfile ? user.avatar : userFind.avatar"
       @onSaveData="onSaveData($event)"
       @onCancelEdit="onCancelEdit"
       @onFollow="onFollow"

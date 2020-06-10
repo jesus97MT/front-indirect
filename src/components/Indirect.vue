@@ -9,7 +9,7 @@
       :style="`border-bottom:1px solid ${this.$vuetify.theme.themes.light.separator}!important`"
     >
       <v-card-title>
-        <span class="title font-weight-black">@{{indirect.userData.userId}}</span>
+        <span class="title font-weight-black pointer" @click="goToProfile(indirect.userData.userId)" >@{{indirect.userData.userId}}</span>
         <img src="../../public/logo/logo.png" class="ml-auto" style="width:48px" />
 
       </v-card-title>
@@ -18,14 +18,14 @@
 
       <v-card-actions>
         <v-list-item class="grow">
-          <v-list-item-avatar color="grey darken-3">
+          <v-list-item-avatar color="grey darken-3 pointer" @click="goToProfile(indirect.userData.userId)">
             <v-img
               :src="avatars && indirect.userData.userUID && avatars[indirect.userData.userUID] || defaultPic"
               class="elevation-6"
             ></v-img>
           </v-list-item-avatar>
 
-          <v-list-item-content>
+          <v-list-item-content class="pointer" @click="goToProfile(indirect.userData.userId)">
             <v-list-item-title>{{indirect.userData.name + " " + indirect.userData.surname}}</v-list-item-title>
           </v-list-item-content>
 
@@ -149,18 +149,18 @@ export default class Indirect extends Vue {
       } else return true;
     }
   }
+
+  goToProfile(userId) {
+    this.$router.push(`/profile/${userId}`)
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.main {
-  display: flex;
-  border: 1px solid black;
-  padding: 1rem;
-  .user-icon {
-    width: 32px;
-    height: 32px;
-  }
+
+.pointer {
+  cursor: pointer;
 }
+
 </style>
