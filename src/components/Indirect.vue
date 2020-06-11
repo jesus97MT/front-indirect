@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-card
+      @click="onClickIndirect"
       class="mx-auto"
       color="#26c6da"
       dark
@@ -9,16 +10,21 @@
       :style="`border-bottom:1px solid ${this.$vuetify.theme.themes.light.separator}!important`"
     >
       <v-card-title>
-        <span class="title font-weight-black pointer" @click="goToProfile(indirect.userData.userId)" >@{{indirect.userData.userId}}</span>
+        <span
+          class="title font-weight-black pointer"
+          @click="goToProfile(indirect.userData.userId)"
+        >@{{indirect.userData.userId}}</span>
         <img src="../../public/logo/logo.png" class="ml-auto" style="width:48px" />
-
       </v-card-title>
 
       <v-card-text class="headline font-weight-bold">{{indirect.text}}</v-card-text>
 
       <v-card-actions>
         <v-list-item class="grow">
-          <v-list-item-avatar color="grey darken-3 pointer" @click="goToProfile(indirect.userData.userId)">
+          <v-list-item-avatar
+            color="grey darken-3 pointer"
+            @click="goToProfile(indirect.userData.userId)"
+          >
             <v-img
               :src="avatars && indirect.userData.userUID && avatars[indirect.userData.userUID] || defaultPic"
               class="elevation-6"
@@ -77,7 +83,7 @@
                   @click:close="remove(data.item)"
                 >
                   <v-avatar left>
-                    <v-img></v-img>
+                    <v-img :src="avatars[data.item.value]"></v-img>
                   </v-avatar>
                   {{ data.item.text }}
                 </v-chip>
@@ -89,7 +95,7 @@
                 </template>
                 <template v-else>
                   <v-list-item-avatar>
-                    <img :src="data.item.avatar" />
+                    <img :src="avatars[data.item.value] || defaultPic" />
                   </v-list-item-avatar>
                   <v-list-item-content>
                     <v-list-item-title v-html="data.item.text"></v-list-item-title>
@@ -121,6 +127,7 @@ export default class Indirect extends Vue {
   @Prop() private type!: boolean;
   @Prop() private mutualList!: object;
   @Prop() private avatars!: object;
+  @Prop() private index!: number;
 
   private textNewIndirect: string = "";
   private typeNewIndirect: boolean = true; //true -> public || false -> private
@@ -151,16 +158,18 @@ export default class Indirect extends Vue {
   }
 
   goToProfile(userId) {
-    this.$router.push(`/profile/${userId}`)
+    this.$router.push(`/profile/${userId}`);
+  }
+
+  onClickIndirect() {
+    this.$emit("onClickIndirect", this.index);
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
 .pointer {
   cursor: pointer;
 }
-
 </style>

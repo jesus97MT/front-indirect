@@ -38,7 +38,10 @@ const state = {
         data: [],
         avatars: {}
     },
-    mutualList: []
+    mutualList: {
+        data: [],
+        avatars: {}
+    }
 };
 
 const actions = {
@@ -182,11 +185,15 @@ const actions = {
         const userId = data.userId;
 
         userService.getUserMutualList(userId).then(
-            (mutualList: any) => {
-                commit('setMutualList', mutualList);
+            (data: any) => {
+                const mutualList = data[0];
+                const avatars = data[1];
+                commit('setMutualListData', mutualList);
+                commit('setMutualListAvatars', avatars);
             },
             error => {
-                commit('setMutualList', []);
+                commit('setMutualListData', []);
+                commit('setMutualListAvatars', null);
                 //console.log(error);
             }
         );
@@ -310,22 +317,31 @@ const mutations = {
         state.followList.avatars = imagesURL;
     },
 
-    setMutualList(state: any, list: any) {
+    setMutualListData(state: any, list: any) {
         // TO DO VALIDAR DATOS
-        state.mutualList = []
-        state.mutualList = list;
+        state.mutualList.data = []
+        state.mutualList.data = list;
+    },
+
+    setMutualListAvatars(state: any, images: any) {
+        // TO DO VALIDAR DATOS
+        const imagesURL: any = {};
+        Object.keys(images).forEach((uid: any) => {
+            var blob = new Blob([images[uid]]);
+            imagesURL[uid] = URL.createObjectURL(blob);
+        });
+
+        state.mutualList.avatars = {};
+        state.mutualList.avatars = imagesURL;
     },
 
     setNewProfilePic(state: any, image: any) {
-        console.log(image)
         const blob = new Blob([image]);
         const imageUrl = URL.createObjectURL(blob);
 
         state.user.avatar = null;
         state.user.avatar = imageUrl;
     }
-
-    
 
 };
 
@@ -349,8 +365,12 @@ const getters = {
         return JSON.parse(JSON.stringify(state.followList.avatars));
     },
 
-    getMutualList(state: any, user: any) {
-        return JSON.parse(JSON.stringify(state.mutualList));
+    getMutualListData(state: any, user: any) {
+        return JSON.parse(JSON.stringify(state.mutualList.data));
+    },
+
+    getMutualListAvatars(state: any, user: any) {
+        return JSON.parse(JSON.stringify(state.mutualList.avatars));
     }
 
 }

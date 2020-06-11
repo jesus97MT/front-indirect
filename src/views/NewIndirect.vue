@@ -4,6 +4,7 @@
       class="mt-6 mx-4 mx-sm-0"
       :type="false"
       :mutualList="mutualListParsed"
+      :avatars="avatars"
       @onSendIndirect="onSendIndirect($event)"
     ></Indirect>
   </div>
@@ -19,7 +20,8 @@ export default {
   },
   computed: {
     ...mapGetters("user", {
-      mutualList: "getMutualList"
+      mutualList: "getMutualListData",
+      avatars: "getMutualListAvatars"
     })
   },
   watch: {

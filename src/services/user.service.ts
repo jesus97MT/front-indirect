@@ -80,7 +80,7 @@ function getUserData(token: string) {
         socket.on("getUserAvatarByToken", (image: any) => {
             subject.next(image);
         });
-        
+
     })
 
 }
@@ -180,7 +180,7 @@ function getUserFollowList(userId: string, typeList: string) {
         });
     });
 
-    const promises = [p1,p2];
+    const promises = [p1, p2];
     return Promise.all(promises);
 }
 
@@ -188,7 +188,7 @@ function getUserMutualList(userId: string) {
     socketOperations.getUserMutualList(userId);
     var socket = socketOperations.getSocket();
 
-    return new Promise((resolve, reject) => {
+    const p1 = new Promise((resolve, reject) => {
         socket.on('error', (error: any) => {
             socket.close();
             reject(null);
@@ -197,6 +197,20 @@ function getUserMutualList(userId: string) {
             resolve(mutualList);
         });
     });
+
+    const p2 = new Promise((resolve, reject) => {
+        socket.on('error', (error: any) => {
+            socket.close();
+            reject(null);
+        });
+        socket.on("getMutualAvatarsList", (images: any) => {
+            resolve(images);
+        });
+    });
+    const promises = [p1, p2];
+    return Promise.all(promises);
+
+
 }
 
 function setNewProfilePic(image: File) {
