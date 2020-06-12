@@ -68,10 +68,8 @@ const mutations = {
         
             state.indirects.data = [];
             state.indirects.data = oldData.concat(indirects);
-            console.log(state.indirects.data.length)
         } else { //añadir arriba
             const oldData = JSON.parse(JSON.stringify(state.indirects.data));
-            console.log("añadir arriba")
             state.indirects.data = [];
             state.indirects.data = indirects.concat(oldData);
         }

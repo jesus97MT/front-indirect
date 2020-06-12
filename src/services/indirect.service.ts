@@ -36,7 +36,6 @@ function loadIndirect(options) {
         });
 
         socket.on("onGetIndirects", (response: any) => {
-            console.log(response)
             resolve(response);
         });
         

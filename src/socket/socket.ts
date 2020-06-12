@@ -144,7 +144,6 @@ function addIndirect(indirect: object) {
 function getIndirects(options) {
     const token = getToken();
     const op = "getIndirects";
-    console.log(options)
     const data = {token, options};
     socket.emit(op, data);
 }
