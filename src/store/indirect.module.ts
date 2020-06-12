@@ -33,8 +33,8 @@ const actions = {
             );
     },
 
-    loadIndirects({ commit }: any) {
-        indirectService.loadIndirect()
+    loadIndirects({ commit }: any, countScroll?:number) {
+        indirectService.loadIndirect(countScroll)
         .then(
             (data: any) => {
                 const indirects = data[0];
@@ -61,8 +61,10 @@ const actions = {
 
 const mutations = {
     setIndirectsData(state: any, indirects: any) {
+        const oldData = JSON.parse(JSON.stringify(state.indirects.data));
+        
         state.indirects.data = [];
-        state.indirects.data = indirects.reverse();
+        state.indirects.data = oldData.concat(indirects);
     },
 
     setIndirectsAvatars(state: any, images: any) {

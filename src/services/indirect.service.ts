@@ -25,8 +25,8 @@ function addIndirect(newIndirect: object) {
 }
 
 
-function loadIndirect() {
-    socketOperations.getIndirects();
+function loadIndirect(countScroll) {
+    socketOperations.getIndirects(countScroll);
     var socket = socketOperations.getSocket();
 
     const p1 = new Promise((resolve, reject) => {
