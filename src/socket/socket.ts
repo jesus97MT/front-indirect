@@ -141,10 +141,11 @@ function addIndirect(indirect: object) {
     socket.emit(op, data);
 }
 
-function getIndirects(countScroll) {
+function getIndirects(options) {
     const token = getToken();
     const op = "getIndirects";
-    const data = {token, countScroll};
+    console.log(options)
+    const data = {token, options};
     socket.emit(op, data);
 }
 

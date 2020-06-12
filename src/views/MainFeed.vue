@@ -1,7 +1,9 @@
 <template>
   <div class="ml-sm-8 mt-sm-8 mt-0" style="width:100%; max-width:800px">
+    <v-btn @click="refreshIndirects()">refresh</v-btn>
+
     <div
-      class="home mt-6 mx-4 mx-sm-0"
+      class="home mt-6 mx-4 mx-sm-0 mb-12"
       v-for="(indirect, index) in indirects"
       v-bind:key="indirect.id"
     >
@@ -12,6 +14,9 @@
         :type="true"
         :index="index"
       />
+    </div>
+    <div v-if="loadNewIndirects && countScroll > -1" class="d-flex justify-center mb-5">
+      <v-progress-circular size="60" indeterminate color="primary"></v-progress-circular>
     </div>
     <div v-if="!indirects.length">
       <v-alert
@@ -34,7 +39,7 @@
 <script>
 // @ is an alias to /src
 import Indirect from "@/components/Indirect.vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "MainFeed",
@@ -47,16 +52,21 @@ export default {
       avatars: "getIndirectsAvatars"
     })
   },
-   watch: {
+  watch: {
     indirects() {
+      if (this.directionLoadIndirects) this.dateLoadIndirects = new Date().getTime() + 1000;
       this.loadNewIndirects = false;
       this.countScroll++;
     }
   },
-  
+
   methods: {
     ...mapActions("account", ["logout"]),
     ...mapActions("indirect", ["loadIndirects"]),
+    ...mapMutations("indirect", [
+      "resetIndirectsData",
+      "resetIndirectsAvatars"
+    ]),
 
     clickDisconect: function(data) {
       this.logout();
@@ -75,6 +85,15 @@ export default {
       const pageHeight = document.documentElement.scrollHeight;
       const bottomOfPage = visible + scrollY >= pageHeight;
       return bottomOfPage || pageHeight < visible;
+    },
+
+    refreshIndirects() {
+      this.directionLoadIndirects = true;
+      this.loadIndirects({
+      date: this.dateLoadIndirects,
+      direction: this.directionLoadIndirects,
+      countScroll: null
+    });
     }
   },
   data() {
@@ -83,7 +102,7 @@ export default {
       dialogIndex: null,
       loadNewIndirects: false,
       countScroll: -1,
-      directionLoadIndirects: false,//false -> down || true -> up
+      directionLoadIndirects: false, //false -> down || true -> up
       dateLoadIndirects: null //ToDo cargar indirects dependiendo si es scrolleando para abajo se buscan todos los indirects antiguos de esa fecha y si es hacia arriba/nuevos pues apartir de esa fecha para no tener mezclado los datos
     };
   },
@@ -92,8 +111,11 @@ export default {
       //console.log("scorll")
       if (!this.loadNewIndirects && this.bottomVisible()) {
         this.loadNewIndirects = true;
-        this.loadIndirects(this.countScroll + 1);
-        console.log("load new indirects")
+        this.loadIndirects({
+          date: this.dateLoadIndirects,
+          direction: this.directionLoadIndirects,
+          countScroll: this.countScroll + 1
+        });
       }
     });
     /*const token = localStorage.getItem('token');
@@ -102,8 +124,17 @@ export default {
     });*/
   },
   mounted() {
-    this.dateLoadIndirects = new Date();
-    this.loadIndirects();
+    this.reset;
+    this.dateLoadIndirects = new Date().getTime() + 1000;
+    this.loadIndirects({
+      date: this.dateLoadIndirects,
+      direction: this.directionLoadIndirects,
+      countScroll: null
+    });
+  },
+  destroyed() {
+    this.resetIndirectsData();
+    this.resetIndirectsAvatars();
   }
 };
 </script>
