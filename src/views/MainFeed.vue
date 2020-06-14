@@ -1,6 +1,6 @@
 <template>
   <div class="ml-sm-8 mt-sm-8 mt-0" style="width:100%; max-width:800px">
-    <pull-to :top-load-method="refreshIndirects" :top-config="topConfig">
+    <vue-pull-refresh :on-refresh="refreshIndirects" :config="config">
       <!-- <v-btn @click="refreshIndirects("das")">refresh</v-btn> -->
 
       <div
@@ -18,7 +18,7 @@
       </div>
 
       <div v-if="loadNewIndirects && countScroll > -1" class="d-flex justify-center mb-5">
-        <v-progress-circular size="60" indeterminate color="primary"></v-progress-circular>
+        <v-progress-circular size="30" indeterminate color="primary"></v-progress-circular>
       </div>
       <div v-if="!indirects.length">
         <v-alert
@@ -33,7 +33,7 @@
       <v-dialog v-model="dialog" max-width="700">
         <Indirect :indirect="indirects[dialogIndex]" :avatars="avatars" :type="true" />
       </v-dialog>
-    </pull-to>
+    </vue-pull-refresh>
     <v-btn color="primary" fixed bottom right fab @click="onAddIndirect">
         <v-icon>edit</v-icon>
       </v-btn>
@@ -44,7 +44,8 @@
 // @ is an alias to /src
 import Indirect from "@/components/Indirect.vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import PullTo from 'vue-pull-to'
+import VuePullRefresh from 'vue-pull-refresh';
+var promiseResolve;
 
  
 
@@ -52,7 +53,7 @@ export default {
   name: "MainFeed",
   components: {
     Indirect,
-    PullTo
+    VuePullRefresh
   },
   computed: {
     ...mapGetters("indirect", {
@@ -64,7 +65,7 @@ export default {
     indirects() {
       if (this.directionLoadIndirects) {
         this.dateLoadIndirects = new Date().getTime() + 1000;
-        this.promise('done')
+        promiseResolve();
       }
       this.loadNewIndirects = false;
       this.countScroll++;
@@ -98,14 +99,17 @@ export default {
       return bottomOfPage || pageHeight < visible;
     },
 
-    refreshIndirects(loaded) {
+    refreshIndirects() {
+      
       this.directionLoadIndirects = true;
       this.loadIndirects({
         date: this.dateLoadIndirects,
         direction: this.directionLoadIndirects,
         countScroll: null
       });
-      this.promise = loaded;
+      return new Promise(function (resolve, reject) {
+                promiseResolve = resolve;
+            });
       
     },
 
@@ -121,17 +125,13 @@ export default {
       countScroll: -1,
       directionLoadIndirects: false, //false -> down || true -> up
       dateLoadIndirects: null, //ToDo cargar indirects dependiendo si es scrolleando para abajo se buscan todos los indirects antiguos de esa fecha y si es hacia arriba/nuevos pues apartir de esa fecha para no tener mezclado los datos
-      topConfig: {
-        pullText: 'Pull down to refresh', // The text is displayed when you pull down
-        triggerText: 'Release to refresh', // The text that appears when the trigger distance is pulled down
-        loadingText: 'Refreshing data', // The text in the load
-        doneText: 'Data loaded', // Load the finished text
-        failText: 'Error data', // Load failed text
-        loadedStayTime: 400, // Time to stay after loading ms
-        stayDistance: 50, // Trigger the distance after the refresh
-        triggerDistance: 70 // Pull down the trigger to trigger the distance
+      config: {
+        startLabel: 'Pull down to refresh', // The text is displayed when you pull down
+        readyLabel: 'Release to refresh', // The text that appears when the trigger distance is pulled down
+        loadingLabel: 'Refreshing data', // The text in the load
+        errorLabel: 'Error data', // Load failed text
       },
-      promise: null
+
     };
   },
   created() {
@@ -167,7 +167,7 @@ export default {
 };
 </script>
 <style>
-.scroll-container {
-  overflow-y: hidden!important;
+.pull-down-header {
+  background-color: initial;
 }
 </style>

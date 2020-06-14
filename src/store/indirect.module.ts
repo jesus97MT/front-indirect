@@ -28,7 +28,7 @@ const actions = {
                     //alerta añadido?
                 },
                 error => {
-                    console.log(error);
+                    //console.log(error);
                 }
             );
     },
@@ -51,7 +51,7 @@ const actions = {
                     commit('setIndirectsAvatars', []);
             },
             error => {
-                console.log(error);
+                //console.log(error);
             }
         );
     }
