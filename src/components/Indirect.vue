@@ -52,7 +52,7 @@
     </v-card>
     <v-card class="mx-auto" color="#26c6da" dark tile v-else>
       <v-card-title>
-        <v-icon large left>mdi-twitter</v-icon>
+        <img src="../../public/logo/logo.png" style="width:52px" />
       </v-card-title>
 
       <v-card-text class="headline font-weight-bold">
