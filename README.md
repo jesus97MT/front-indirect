@@ -1,24 +1,10 @@
-# front-indirect
+# Front-End Indirect
+ 
+## Visit the app
 
-## Project setup
-```
-npm install
-```
+[Indirect](https://github.com/jesus97MT/indirect) 
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Visit the Back-End Repository 
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[Back-End](https://github.com/jesus97MT/back-indirect) - Built with NodeJS + SocketIO
