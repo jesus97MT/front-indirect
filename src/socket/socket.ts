@@ -1,7 +1,7 @@
 import io from 'socket.io-client'
 const urlProd = "https://indirect-back.herokuapp.com/";
 const urlDev = "http://localhost:8000";
-const url = urlDev;
+const url = urlProd;
 
 var socket: any = io(url);
 

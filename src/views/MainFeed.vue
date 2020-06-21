@@ -168,6 +168,6 @@ export default {
 </script>
 <style>
 .pull-down-header {
-  background-color: initial;
+  background-color: #fff6ed!important;
 }
 </style>
